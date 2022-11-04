@@ -1,3 +1,2 @@
-public interface GameAction{
-    MoveAction moveaction();
+package PACKAGE_NAME;public class GameAction {
 }

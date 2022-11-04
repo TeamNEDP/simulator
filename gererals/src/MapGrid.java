@@ -1,4 +1,3 @@
-public interface MapGrid {
-    GridType type();
-    Integer soldiers();
+public class GapGrid {
+
 }

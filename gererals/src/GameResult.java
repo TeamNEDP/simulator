@@ -1,5 +1,2 @@
-public interface GameResult{
-    char winner();
-    UserGameStat r_stat();
-    UserScript b_stat();
+package PACKAGE_NAME;public class GameResult {
 }

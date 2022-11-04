@@ -1,6 +1,2 @@
-public interface GameSetting{
-    String id();
-    GameMap map();
-    GameUser r();
-    GameUser b();
+package PACKAGE_NAME;public class GameSetting {
 }

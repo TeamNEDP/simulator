@@ -1,4 +1,2 @@
-public interface UserScript {
-    String type();
-    String content();
+package PACKAGE_NAME;public class UserScript {
 }

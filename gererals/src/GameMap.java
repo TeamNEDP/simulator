@@ -1,5 +1,2 @@
-public interface GameMap{
-    Integer width();
-    Integer height();
-    MapGrid[] grid();
+package PACKAGE_NAME;public class GameMap {
 }

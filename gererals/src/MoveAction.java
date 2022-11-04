@@ -1,6 +1,2 @@
-public interface MoveAction {
-    Integer x();
-    Integer y();
-    Integer amount();
-    Character movement();
+package PACKAGE_NAME;public class MoveAction {
 }

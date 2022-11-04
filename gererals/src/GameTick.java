@@ -1,6 +1,2 @@
-public interface GameTick {
-    GridChange[] changes();
-    Operator operator();
-    GameAction action();
-    boolean action_valid();
+package PACKAGE_NAME;public class GameTick {
 }

@@ -1,5 +1,5 @@
-public interface GridChange {
-    int x();
-    int y();
-    MapGrid grid();
+public class GameChange {
+    int x;
+    int y;
+    MapGrid grid;
 }

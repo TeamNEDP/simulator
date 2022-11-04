@@ -1,4 +1,2 @@
-public interface GameUser {
-    String id();
-    UserScript script();
+package PACKAGE_NAME;public class GameUser {
 }
