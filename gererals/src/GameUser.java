@@ -1,2 +1,4 @@
-package PACKAGE_NAME;public class GameUser {
+public class GameUser {
+    String id;
+    UserScript script;
 }

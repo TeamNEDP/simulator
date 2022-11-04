@@ -1,2 +1,6 @@
-package PACKAGE_NAME;public class GameTick {
+public class GameTick {
+    GridChange[] changes;
+    String operator;
+    GameAction action;
+    boolean action_valid;
 }

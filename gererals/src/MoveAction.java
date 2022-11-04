@@ -1,2 +1,6 @@
-package PACKAGE_NAME;public class MoveAction {
+public class MoveAction {
+    int x;
+    int y;
+    int amount;
+    char movement;
 }

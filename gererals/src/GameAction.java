@@ -1,2 +1,3 @@
-package PACKAGE_NAME;public class GameAction {
+public class GameAction {
+    MoveAction moveaction;
 }

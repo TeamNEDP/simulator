@@ -1,2 +1,5 @@
-package PACKAGE_NAME;public class GameMap {
+public class GameMap {
+    int width;
+    int height;
+    MapGrid[] grid;
 }

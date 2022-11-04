@@ -1,2 +1,4 @@
-package PACKAGE_NAME;public class UserScript {
+public class UserScript {
+    String type;
+    String content;
 }

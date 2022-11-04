@@ -1,3 +1,4 @@
-public class GapGrid {
-
+public class MapGrid {
+    String  type;
+    int soldiers;
 }
