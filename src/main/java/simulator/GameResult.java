@@ -1,3 +1,5 @@
+package simulator;
+
 public class GameResult {
     char winner;
     UserGameStat r_stat;

@@ -1,3 +1,5 @@
+package simulator;
+
 public class GridChange {
     int x;
     int y;

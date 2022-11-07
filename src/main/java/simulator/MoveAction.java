@@ -1,3 +1,5 @@
+package simulator;
+
 public class MoveAction {
     int x;
     int y;

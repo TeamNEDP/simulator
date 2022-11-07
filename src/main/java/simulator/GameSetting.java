@@ -1,3 +1,5 @@
+package simulator;
+
 public class GameSetting {
     String id;
     GameMap map;

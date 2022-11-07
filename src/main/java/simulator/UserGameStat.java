@@ -1,3 +1,5 @@
+package simulator;
+
 public class UserGameStat {
     int rounds;
     int moves;

@@ -1,3 +1,5 @@
+package simulator;
+
 public class GameTick {
     GridChange[] changes;
     String operator;
