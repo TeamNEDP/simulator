@@ -5,4 +5,9 @@ public class GameTick {
     String operator;
     GameAction action;
     boolean action_valid;
+
+
+    public String toString() {
+        return "{"
+    }
 }

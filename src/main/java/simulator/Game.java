@@ -1,13 +1,10 @@
 package simulator;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 public class Game {
 
 
     public static void main(String[] args) {
-        ExecutorService service= Executors.newFixedThreadPool(10);
+
         GameSetting game;
         GameTick tick;
         GameResult result=new GameResult();
