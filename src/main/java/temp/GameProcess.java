@@ -29,7 +29,7 @@ public class GameProcess implements Runnable {
 					break;
 				}
 			} catch (InterruptedException ex) {
-
+				state.sendGameTick();
 			}
 			done.set(true);
 
