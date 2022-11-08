@@ -30,11 +30,12 @@ public class WebsocketHandler extends WebSocketClient {
 
 	public synchronized void sendGameTick(GameTick gameTick)
 	{
+		System.out.println(new Gson().toJson(gameTick));
 	}
 
 	public synchronized void sendGameResult(GameResult gameResult)
 	{
-
+		System.out.println(new Gson().toJson(gameResult));
 	}
 
 
@@ -51,15 +52,5 @@ public class WebsocketHandler extends WebSocketClient {
 
 	// Todo new class
 
-	public static void main(String[] args) {
-		var url = System.getenv("SERVER_URL");
-		var secret = System.getenv("SERVER_SECRET");
-		WebsocketHandler client = new WebsocketHandler();
-		client.connect();
-		while (!client.getReadyState().equals(WebSocket.readyState.OPEN)) {
-			System.out.println("还没有打开");
-		}
-		System.out.println("建立 websocket 连接");
-	}
 
 }
