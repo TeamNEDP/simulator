@@ -31,11 +31,19 @@ public class WebsocketHandler extends WebSocketClient {
 	}
 
 	public synchronized void sendGameTick(GameTick gameTick) {
-		send(new Gson().toJson(gameTick));
+		try {
+			send(new Gson().toJson(gameTick));
+		} catch (Exception ex) {
+			System.out.println("Error on open web socket");
+		}
 	}
 
 	public synchronized void sendGameResult(GameResult gameResult) {
-		send(new Gson().toJson(gameResult));
+		try {
+			send(new Gson().toJson(gameTick));
+		} catch (Exception ex) {
+			System.out.println("Error on open web socket");
+		}
 	}
 
 
