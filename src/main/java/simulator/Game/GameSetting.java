@@ -1,5 +1,6 @@
-package simulator;
+package Game;
 
+import Game;
 import com.google.gson.annotations.SerializedName;
 
 public class GameSetting {

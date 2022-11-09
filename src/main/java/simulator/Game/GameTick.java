@@ -1,4 +1,6 @@
-package simulator;
+package Game;
+
+import Game;
 
 public class GameTick {
     GridChange[] changes;

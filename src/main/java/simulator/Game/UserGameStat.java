@@ -1,5 +1,6 @@
-package simulator;
+package Game;
 
+import Game;
 public class UserGameStat {
     int rounds;
     int moves;
