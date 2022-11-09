@@ -29,7 +29,7 @@ public class GameProcess implements Runnable {
 					break;
 				}
 			} catch (InterruptedException ex) {
-
+				state.sendGameTick();
 			}
 			done.set(true);
 
@@ -37,7 +37,7 @@ public class GameProcess implements Runnable {
 			// 固定间隔
 			var took = System.currentTimeMillis() - start;
 
-
+			Thread.sleep(500 - took);
 		}
 	}
 }

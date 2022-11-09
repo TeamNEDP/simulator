@@ -6,20 +6,22 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class WebsocketHandler extends WebSocketClient {
 	ExecutorService service = Executors.newFixedThreadPool(100);
+	String authMessage;
 
-	WebsocketHandler(URI uri) {
-		super(uri);
+	WebsocketHandler(URI url, String str) {
+		super(url);
+		this.authMessage = str;
 	}
 
 	@Override
 	public void onOpen(ServerHandshake handshakedata) {
-		// NO-OP
-		// TODO send auth message
+		send(authMessage);
 	}
 
 	@Override
@@ -28,13 +30,20 @@ public class WebsocketHandler extends WebSocketClient {
 		service.submit(new GameProcess(gameSetting, service));
 	}
 
-	public synchronized void sendGameTick(GameTick gameTick)
-	{
+	public synchronized void sendGameTick(GameTick gameTick) {
+		try {
+			send(new Gson().toJson(gameTick));
+		} catch (Exception ex) {
+			System.out.println("Error on open web socket");
+		}
 	}
 
-	public synchronized void sendGameResult(GameResult gameResult)
-	{
-
+	public synchronized void sendGameResult(GameResult gameResult) {
+		try {
+			send(new Gson().toJson(gameResult));
+		} catch (Exception ex) {
+			System.out.println("Error on open web socket");
+		}
 	}
 
 
@@ -47,19 +56,4 @@ public class WebsocketHandler extends WebSocketClient {
 	public void onError(Exception ex) {
 		System.out.println("错误：" + ex);
 	}
-
-
-	// Todo new class
-
-	public static void main(String[] args) {
-		var url = System.getenv("SERVER_URL");
-		var secret = System.getenv("SERVER_SECRET");
-		WebsocketHandler client = new WebsocketHandler();
-		client.connect();
-		while (!client.getReadyState().equals(WebSocket.readyState.OPEN)) {
-			System.out.println("还没有打开");
-		}
-		System.out.println("建立 websocket 连接");
-	}
-
 }
