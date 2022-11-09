@@ -40,7 +40,7 @@ public class WebsocketHandler extends WebSocketClient {
 
 	public synchronized void sendGameResult(GameResult gameResult) {
 		try {
-			send(new Gson().toJson(gameTick));
+			send(new Gson().toJson(gameResult));
 		} catch (Exception ex) {
 			System.out.println("Error on open web socket");
 		}
