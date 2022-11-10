@@ -1,4 +1,4 @@
-package simulator;
+package websocket;
 
 import Game.GameProcess;
 import com.google.gson.Gson;

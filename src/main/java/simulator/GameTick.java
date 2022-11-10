@@ -1,4 +1,4 @@
-package game;
+package simulator;
 
 import simulator.game;
 
@@ -7,9 +7,4 @@ public class GameTick {
     String operator;
     GameAction action;
     boolean action_valid;
-
-
-    public String toString() {
-        return "{"
-    }
 }

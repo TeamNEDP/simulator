@@ -1,4 +1,4 @@
-package game;
+package simulator;
 
 import simulator.game;
 import java.util.concurrent.ScheduledExecutorService;

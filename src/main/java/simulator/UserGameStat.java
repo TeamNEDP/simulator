@@ -1,4 +1,4 @@
-package game;
+package simulator;
 
 import simulator.game;
 public class UserGameStat {

@@ -1,4 +1,4 @@
-package simulator;
+package websocket;
 
 import org.java_websocket.WebSocket;
 
