@@ -1,6 +1,6 @@
-package Game;
+package game;
 
-import Game;
+import simulator.game;
 
 public enum Movement {
     U,D,L,R

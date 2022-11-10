@@ -1,6 +1,6 @@
-package Game;
+package game;
 
-import Game;
+import simulator.game;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
