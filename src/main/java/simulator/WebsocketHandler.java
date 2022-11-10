@@ -1,5 +1,6 @@
 package simulator;
 
+import Game.GameProcess;
 import com.google.gson.Gson;
 import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
@@ -27,7 +28,17 @@ public class WebsocketHandler extends WebSocketClient {
 	@Override
 	public void onMessage(String message) {
 		var gameSetting = new Gson().fromJson(message, GameSetting.class);
-		service.submit(new GameProcess(gameSetting, service));
+		service.submit(new GameProcess(gameSetting, service, ));
+	}
+
+	@Override
+	public void onClose(int code, String reason, boolean remote) {
+		System.out.println("连接关闭：" + reason);
+	}
+
+	@Override
+	public void onError(Exception ex) {
+		System.out.println("错误：" + ex);
 	}
 
 	public synchronized void sendGameTick(GameTick gameTick) {
@@ -47,13 +58,4 @@ public class WebsocketHandler extends WebSocketClient {
 	}
 
 
-	@Override
-	public void onClose(int code, String reason, boolean remote) {
-		System.out.println("连接关闭：" + reason);
-	}
-
-	@Override
-	public void onError(Exception ex) {
-		System.out.println("错误：" + ex);
-	}
 }
