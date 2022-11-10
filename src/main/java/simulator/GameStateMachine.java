@@ -15,31 +15,34 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class GameStateMachine {
-    static GameSetting game;
-    static GameMap currentGameState;
-    static GameResult result;
-    static WebsocketHandler handler;
-    static int time;
-    static int first_to_play;
+    GameStartData data;
+    GameSetting game;
+    GameMap currentGameState;
+    GameResult result;
+    WebsocketHandler handler;
+    int time;
+    int first_to_play;
     // private ...
 
     // current player
 
     // script
 
-    public GameStateMachine() {
+    public GameStateMachine(GameStartData data_1) {
         // gamesettings initialize
         time=0;
         Random random = new Random();
         first_to_play=random.nextInt(2);
         GameResult result=new GameResult();
+        data=data_1;
+        game=data.setting;
     }
 
     /**
      *
      * @return whether the game ends
      */
-    public static boolean tick(ExecutorService service) {
+    public boolean tick(ExecutorService service) {
         // TODO
         //改动的格子数
         int num=1;
@@ -171,6 +174,7 @@ public class GameStateMachine {
         }
         else
         {
+            
             MapGrid temp=game.map.grid[tick.action.moveaction.x*game.map.height+tick.action.moveaction.y];
             //判断是否是自己的格子
             if(tick.operator=="R")
@@ -277,7 +281,7 @@ public class GameStateMachine {
                                     result.b_stat.grids_taken++;
                             }
                             handler.sendGameResult(result);
-
+                            return true;
                         }
                         //占领城堡
                         else if(to_grid.type=="CR")
@@ -330,6 +334,7 @@ public class GameStateMachine {
                                     result.b_stat.grids_taken++;
                             }
                             handler.sendGameResult(result);
+                            return true;
                         }
                         //占领城堡
                         else if(to_grid.type=="CB")
