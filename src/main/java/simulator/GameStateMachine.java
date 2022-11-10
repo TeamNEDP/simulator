@@ -2,6 +2,8 @@ package simulator;
 
 import simulator.game;
 import simulator;
+import simulator.game.*;
+
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 

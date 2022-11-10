@@ -1,6 +1,7 @@
-package simulator;
+package simulator.game;
 
 import simulator.game;
+
 public class GameSetting {
 
     String id;

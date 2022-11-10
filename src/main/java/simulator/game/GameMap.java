@@ -1,6 +1,7 @@
-package simulator;
+package simulator.game;
 
 import simulator.game;
+import simulator.game.MapGrid;
 
 public class GameMap {
     int width;

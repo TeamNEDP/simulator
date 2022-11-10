@@ -1,6 +1,6 @@
 package temp;
 
-import simulator.GameMap;
+import simulator.game.GameMap;
 
 public final class GameState {
 

@@ -1,5 +1,6 @@
 package simulator;
 
+import simulator.GameStateMachine;
 import simulator.game;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
