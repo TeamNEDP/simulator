@@ -1,9 +1,7 @@
 package websocket.message;
 
-import simulator.game.GameSetting;
-
-public class GameStartMessage extends Message<GameSetting> {
-	public GameStartMessage(GameSetting gameStartData) {
+public class GameStartMessage extends Message<GameStartData> {
+	public GameStartMessage(GameStartData gameStartData) {
 		event = "gameStart";
 		data = gameStartData;
 	}

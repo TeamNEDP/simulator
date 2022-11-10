@@ -29,8 +29,9 @@ public class WebsocketHandler extends WebSocketClient {
 
 	@Override
 	public void onMessage(String message) {
-		var gameSetting = new Gson().fromJson(message, GameStartMessage.class).data;
-		service.submit(new GameProcess(gameSetting, service));
+		var gameStartData = new Gson().fromJson(message, GameStartMessage.class).data;
+
+		service.submit(new GameProcess(gameStartData, service));
 	}
 
 	@Override
