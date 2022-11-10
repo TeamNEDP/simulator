@@ -1,11 +1,11 @@
-package Game;
+package game;
 
-import Game;
+import simulator.game;
 import simulator;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-public final class GameState {
+public final class GameStateMachine {
     GameSetting game;
     GameMap currentGameState;
     GameResult result;
@@ -18,7 +18,7 @@ public final class GameState {
 
     // script
 
-    public GameState() {
+    public GameStateMachine() {
         // gamesettings initialize
         time=0;
         Random random = new Random();

@@ -1,6 +1,6 @@
-package Game;
+package game;
 
-import Game;
+import simulator.game;
 
 public class MapGrid {
     String  type;
