@@ -1,19 +1,26 @@
 package simulator;
 
-import simulator.game;
-import simulator;
 import simulator.game.*;
+import websocket.*;
 
+import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public final class GameStateMachine {
-    GameSetting game;
-    GameMap currentGameState;
-    GameResult result;
-    WebsocketHandler handler;
-    int time;
-    int first_to_play;
+public class GameStateMachine {
+    static GameSetting game;
+    static GameMap currentGameState;
+    static GameResult result;
+    static WebsocketHandler handler;
+    static int time;
+    static int first_to_play;
     // private ...
 
     // current player
@@ -32,7 +39,7 @@ public final class GameStateMachine {
      *
      * @return whether the game ends
      */
-    boolean tick(ExecutorService service) {
+    public static boolean tick(ExecutorService service) {
         // TODO
         //改动的格子数
         int num=1;
@@ -43,7 +50,7 @@ public final class GameStateMachine {
         GameStat b_stat=new GameStat();
         //时间增加
         time++;
-        result.b_stat.rounds=time;
+        result.b_stat.rounds=time; 
         result.r_stat.rounds=time;
         //每刻城堡/皇冠增加
         for(MapGrid a:game.map.grid)
@@ -51,8 +58,8 @@ public final class GameStateMachine {
             if(a.type=="R"||a.type=="B"||a.type=="CR"||a.type=="CB")
             {
                 a.soldiers++;
-                game.changes=Arrays.copyOf(game.changes,num);
-                game.changes[num-1]=a;
+                tick.changes=Arrays.copyOf(tick.changes,num);
+                tick.changes[num-1]=a;
                 num++;
             }
         }
@@ -75,8 +82,8 @@ public final class GameStateMachine {
                 if(a.type=="LB"||a.type=="LR")
                 {
                     a.soldiers++;
-                    game.changes= Arrays.copyOf(game.changes,num);
-                    game.changes[num-1]=a;
+                    tick.changes= Arrays.copyOf(tick.changes,num);
+                    tick.changes[num-1]=a;
                     num++;
                 }
             }
@@ -92,8 +99,8 @@ public final class GameStateMachine {
                 }
             }
         }
-        r_stat.map=game.map.grid;
-        b_stat.map=game.map.grid;
+        r_stat.map=game.map;
+        b_stat.map=game.map;
         for(MapGrid a:game.map.grid)
         {
             if(a.type=="LB"||a.type=="B"||a.type=="CB")
@@ -232,8 +239,8 @@ public final class GameStateMachine {
                 result.b_stat.moves++;
             }
             game.map.grid[tick.action.moveaction.x*game.map.height+tick.action.moveaction.y].soldiers-=tick.action.moveaction.amount;
-            game.changes=Arrays.copyOf(game.changes,num);
-            game.changes[num-1]= game.map.grid[tick.action.moveaction.x*game.map.height+tick.action.moveaction.y];
+            tick.changes=Arrays.copyOf(tick.changes,num);
+            tick.changes[num-1]= game.map.grid[tick.action.moveaction.x*game.map.height+tick.action.moveaction.y];
             num++;
             //要去的格子属于红色方
             if(to_grid.type=="R"||to_grid.type=="CR"||to_grid.type=="LR")
@@ -284,8 +291,8 @@ public final class GameStateMachine {
                         }
                     }
                 }
-                game.changes=Arrays.copyOf(game.changes,num);
-                game.changes[num-1]= game.map.grid[to_x*game.map.height+to_y];
+                tick.changes=Arrays.copyOf(tick.changes,num);
+                tick.changes[num-1]= game.map.grid[to_x*game.map.height+to_y];
                 num++;
             }
             //要去的格子属于蓝色方
@@ -336,8 +343,8 @@ public final class GameStateMachine {
                         }
                     }
                 }
-                game.changes=Arrays.copyOf(game.changes,num);
-                game.changes[num-1]= game.map.grid[to_x*game.map.height+to_y];
+                tick.changes=Arrays.copyOf(tick.changes,num);
+                tick.changes[num-1]= game.map.grid[to_x*game.map.height+to_y];
                 num++;
             }
             //要去无人占领的城堡
@@ -363,8 +370,8 @@ public final class GameStateMachine {
                         game.map.grid[to_x*game.map.height+to_y].type="CB";
                     }
                 }
-                game.changes=Arrays.copyOf(game.changes,num);
-                game.changes[num-1]= game.map.grid[to_x*game.map.height+to_y];
+                tick.changes=Arrays.copyOf(tick.changes,num);
+                tick.changes[num-1]= game.map.grid[to_x*game.map.height+to_y];
                 num++;
             }
             //要去无人占领的空地
@@ -390,8 +397,8 @@ public final class GameStateMachine {
                         game.map.grid[to_x*game.map.height+to_y].type="LB";
                     }
                 }
-                game.changes=Arrays.copyOf(game.changes,num);
-                game.changes[num-1]= game.map.grid[to_x*game.map.height+to_y];
+                tick.changes=Arrays.copyOf(tick.changes,num);
+                tick.changes[num-1]= game.map.grid[to_x*game.map.height+to_y];
                 num++;
             }
         }

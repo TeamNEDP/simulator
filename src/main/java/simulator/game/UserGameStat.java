@@ -1,10 +1,10 @@
 package simulator.game;
 
-import simulator.game;
+import simulator.game.*;
 public class UserGameStat {
-    int rounds;
-    int moves;
-    int soldiers_total;
-    int soldiers_killed;
-    int grids_taken;
+    public int rounds;
+    public int moves;
+    public int soldiers_total;
+    public int soldiers_killed;
+    public int grids_taken;
 }

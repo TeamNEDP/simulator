@@ -1,10 +1,10 @@
 package simulator.game;
 
-import simulator.game;
+import simulator.game.*;
 
 public class MoveAction {
-    int x;
-    int y;
-    int amount;
-    char movement;
+    public int x;
+    public int y;
+    public int amount;
+    public char movement;
 }

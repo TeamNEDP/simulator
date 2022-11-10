@@ -1,8 +1,8 @@
 package simulator.game;
 
-import simulator.game;
+import simulator.game.*;
 
 public class MapGrid {
-    String  type;
-    int soldiers;
+    public String  type;
+    public int soldiers;
 }

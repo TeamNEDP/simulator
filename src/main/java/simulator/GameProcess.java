@@ -1,7 +1,6 @@
 package simulator;
 
 import simulator.GameStateMachine;
-import simulator.game;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,9 +9,9 @@ import java.util.concurrent.Executors;
 
 public class GameProcess implements Runnable {
 
-    GameState state;
+    GameStateMachine state;
     ExecutorService service;
-    public GameProcess(GameState state_1,ExecutorService service_1) {
+    public GameProcess(GameStateMachine state_1,ExecutorService service_1) {
         // input game state
         state=state_1;
         service=service_1;

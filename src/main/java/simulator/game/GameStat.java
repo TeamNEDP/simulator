@@ -1,9 +1,9 @@
 package simulator.game;
 
-import simulator.game;
+import simulator.game.*;
 
 public class GameStat{
-    Gamemap map;
-    int enemy_soldiers;
-    int enemy_lands;
+    public GameMap map;
+    public int enemy_soldiers;
+    public int enemy_lands;
 }

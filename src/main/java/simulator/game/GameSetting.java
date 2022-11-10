@@ -1,13 +1,13 @@
 package simulator.game;
 
-import simulator.game;
+import simulator.game.*;
 
 public class GameSetting {
 
-    String id;
-    GameMap map;
+    public String id;
+    public GameMap map;
 
-    GameUser r;
-    GameUser b;
+    public GameUser r;
+    public GameUser b;
 
 }

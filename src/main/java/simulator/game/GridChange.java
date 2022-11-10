@@ -1,9 +1,9 @@
 package simulator.game;
 
-import simulator.game;
+import simulator.game.*;
 
 public class GridChange {
-    int x;
-    int y;
-    MapGrid grid;
+    public int x;
+    public int y;
+    public MapGrid grid;
 }

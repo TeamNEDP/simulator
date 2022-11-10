@@ -1,8 +1,8 @@
 package simulator.game;
 
-import simulator.game;
+import simulator.game.*;
 
 public class UserScript {
-    String type;
-    String content;
+    public String type;
+    public String content;
 }
