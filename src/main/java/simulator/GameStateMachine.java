@@ -103,8 +103,8 @@ public class GameStateMachine {
 		var start = System.currentTimeMillis();
 
 		try {
-			tick.action = engine.eval("Tick(" + new Gson().toJson(gameStat) + ")");
-		} catch (InterruptedException ex) {
+			tick.action = (GameAction) engine.eval("Tick(" + new Gson().toJson(new GameStat()) + ")");
+		} catch (ScriptException ex) {
 			tick.action = null;
 		}
 		done.set(true);
@@ -251,9 +251,8 @@ public class GameStateMachine {
 			else if(to_grid.type.equals("B") || to_grid.type.equals("CB") || to_grid.type.equals("LB"))
 			{
 				//行动的是蓝色方
-				if(tick.operator.equals("B"))
-				{
-					game.map.grid[to_x*game.map.height+to_y].soldiers+=tick.action.moveaction.amount;
+				if(tick.operator.equals("B")) {
+					game.map.grid[to_x * game.map.height + to_y].soldiers += tick.action.moveaction.amount;
 				}
 				//行动的是红色方
 				else
