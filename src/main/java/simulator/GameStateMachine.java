@@ -57,12 +57,12 @@ public class GameStateMachine {
 			action = bRunner.run(stat);
 		}
 
-		var tick = currentGameState.applyMoveAction(current == 1 ? "r" : "b", action);
+		var tick = currentGameState.applyMoveAction(time,current == 1 ? "r" : "b", action);
 
 		handler.sendGameUpdateData(new GameUpdateData(id, tick));
 
 		if (currentGameState.finished()) {
-			handler.sendGameEndData(new GameEndData(id, currentGameState.getResult()));
+			handler.sendGameEndData(new GameEndData(id, currentGameState.getResult(time)));
 			return true;
 		} else {
 			return false;
