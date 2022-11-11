@@ -1,6 +1,7 @@
 package websocket;
 
 import org.java_websocket.WebSocket;
+import websocket.message.GameEndData;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,6 +16,7 @@ public class SocketClientEngine {
 
 		WebsocketHandler client = new WebsocketHandler(new URI(url), secret);
 		client.connect();
+
 		while (!client.getReadyState().equals(WebSocket.readyState.OPEN)) {
 			System.out.println("还没有打开");
 			Thread.sleep(500);
