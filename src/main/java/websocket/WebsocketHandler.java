@@ -11,16 +11,17 @@ import websocket.message.*;
 import java.net.URI;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class WebsocketHandler extends WebSocketClient {
 	final int MAX_SLOTS = 100;
-	ExecutorService service;
+	ScheduledExecutorService service;
 	AuthData authData;
 
 	WebsocketHandler(URI url, String str) {
 		super(url);
 		this.authData = new AuthData(MAX_SLOTS, str);
-		service = Executors.newFixedThreadPool(MAX_SLOTS);
+		service = Executors.newScheduledThreadPool(MAX_SLOTS);
 	}
 
 	@Override
