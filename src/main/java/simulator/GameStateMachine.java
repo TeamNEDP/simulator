@@ -14,12 +14,6 @@ public class GameStateMachine {
 	private int current, time;
 	private final String id;
 
-	// private ...
-
-	// current player
-
-	// script
-
 	public GameStateMachine(GameStartData data, ScheduledExecutorService service, WebsocketHandler handler) {
 		this.id = data.id;
 		currentGameState = new GameMapState(data.setting.map);
@@ -29,15 +23,14 @@ public class GameStateMachine {
 		this.current = new Random().nextInt(2);
 	}
 
-	/**
-	 * @return whether the game ends
-	 */
-	public boolean tick() {
-		// invoke user script
-
+	private void incTick() {
 		time++;
 		if (time % 2 == 0) {
-			currentGameState.incSoldier();
+			currentGameState.incSoldierPerTick();
+		}
+
+		if (time % 50 == 0) {
+			currentGameState.incSoldierPerRound();
 		}
 
 		if (time % 2 == 0) {
@@ -45,8 +38,16 @@ public class GameStateMachine {
 		} else {
 			current ^= 1;
 		}
+	}
 
+	/**
+	 * @return whether the game ends
+	 */
+	public boolean tick() {
 
+		incTick();
+
+		// invoke user script
 		MoveAction action;
 		if (current == 1) {
 			GameStat stat = GameStat.fromGameMap("r", currentGameState);

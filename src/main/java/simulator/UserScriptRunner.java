@@ -37,11 +37,12 @@ public class UserScriptRunner {
 			return null;
 		}
 		return executeWithTimeout(() ->
-				(MoveAction) engine.eval("Tick(" + new Gson().toJson(stat) + ")"), 500, service
+				MoveAction.fromObject(engine.eval("Tick(" + new Gson().toJson(stat) + ");")), 500, service
 		);
 	}
 
 	private static <T> T executeWithTimeout(Callable<T> callable, @SuppressWarnings("SameParameterValue") long timeout, ExecutorService service) {
+
 		var future = service.submit(callable);
 		var start = System.currentTimeMillis();
 		while (!future.isDone()) {

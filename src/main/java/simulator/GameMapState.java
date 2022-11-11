@@ -1,9 +1,6 @@
 package simulator;
 
-import simulator.game.GameMap;
-import simulator.game.GameResult;
-import simulator.game.GameTick;
-import simulator.game.MoveAction;
+import simulator.game.*;
 
 public class GameMapState {
 	GameMap gameMap;
@@ -12,8 +9,20 @@ public class GameMapState {
 		this.gameMap = gameMap;
 	}
 
-	public void incSoldier() {
-		// TODO
+	public void incSoldierPerTick() {
+		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
+			if (gameMap.grid[i].isCrownOrCastle()) {
+				gameMap.grid[i].soldiers++;
+			}
+		}
+	}
+
+	public void incSoldierPerRound() {
+		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
+			if (gameMap.grid[i].isLand()) {
+				gameMap.grid[i].soldiers++;
+			}
+		}
 	}
 
 	public GameTick applyMoveAction(String user, MoveAction movement) {
@@ -27,7 +36,12 @@ public class GameMapState {
 	}
 
 	public boolean finished() {
-		// TODO
+		boolean r = false, b = false;
+		for (var grid : gameMap.grid) {
+			if (grid.type.equals("R")) r = true;
+			if (grid.type.equals("B")) b = true;
+		}
+		return r && b;
 	}
 
 	public GameResult getResult() {
