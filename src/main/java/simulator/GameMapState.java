@@ -4,15 +4,17 @@ import simulator.game.*;
 
 public class GameMapState {
 	public GameMap gameMap;
-
+	public GameResult result;
 	public GameMapState(GameMap gameMap) {
 		this.gameMap = gameMap;
+		result=new GameResult(0);
 	}
 
 	public void incSoldierPerTick() {
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
 			if (gameMap.grid[i].isCrownOrCastle()) {
 				gameMap.grid[i].soldiers++;
+				result.updateSoldier(gameMap.grid[i].belongto());
 			}
 		}
 	}
@@ -21,6 +23,7 @@ public class GameMapState {
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
 			if (gameMap.grid[i].isLand()) {
 				gameMap.grid[i].soldiers++;
+				result.updateSoldier(gameMap.grid[i].belongto());
 			}
 		}
 	}
@@ -46,13 +49,14 @@ public class GameMapState {
 		if(!gameMap.grid[gameMap.get_pos(movement.x, movement.y)].canConquer())
 			tick.action_valid=false;
 		if(!tick.action_valid) return tick;
+		result.updateMove(user);
 		gameMap.grid[gameMap.get_pos(movement.x, movement.y)].kill(movement.amount);
 		tick.add_change(gameMap.grid[gameMap.get_pos(movement.x, movement.y)]);
 		if(gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())].is_belongto(user))
 		{
 			gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())].kill(-movement.amount);
 		}
-		else gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())].conquer(user,movement.amount);
+		else gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())].conquer(user,movement.amount,result);
 		// return result
 		tick.add_change(gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())]);
 		return tick;
@@ -70,12 +74,11 @@ public class GameMapState {
 	public GameResult getResult(int time) {
 		if (!finished()) throw new IllegalStateException();
 		// TODO
-		GameResult result=new GameResult(time);
+		result.setTime(time);
 		for (var grid : gameMap.grid) {
 			if (grid.type.equals("R")) result.winner="R";
 			if (grid.type.equals("B")) result.winner="B";
 		}
-		
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
 			if (gameMap.grid[i].is_belongto("R")) {
 				result.r_stat.grids_taken++;

@@ -50,14 +50,14 @@ public class GameStateMachine {
 		// invoke user script
 		MoveAction action;
 		if (current == 1) {
-			GameStat stat = GameStat.fromGameMap("r", currentGameState);
+			GameStat stat = new GameStat(currentGameState.gameMap).fromGameMap("R", currentGameState);
 			action = rRunner.run(stat);
 		} else {
-			GameStat stat = GameStat.fromGameMap("b", currentGameState);
+			GameStat stat = new GameStat(currentGameState.gameMap).fromGameMap("B", currentGameState);
 			action = bRunner.run(stat);
 		}
 
-		var tick = currentGameState.applyMoveAction(time,current == 1 ? "r" : "b", action);
+		var tick = currentGameState.applyMoveAction(time,current == 1 ? "R" : "B", action);
 
 		handler.sendGameUpdateData(new GameUpdateData(id, tick));
 
