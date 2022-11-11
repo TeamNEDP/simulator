@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import simulator.GameProcess;
-import simulator.game.GameSetting;
 import websocket.message.*;
 
 import java.net.URI;
@@ -31,7 +30,7 @@ public class WebsocketHandler extends WebSocketClient {
 	public void onMessage(String message) {
 		var gameStartData = new Gson().fromJson(message, GameStartMessage.class).data;
 
-		service.submit(new GameProcess(gameStartData, service));
+		service.submit(new GameProcess(gameStartData, service, this));
 	}
 
 	@Override
@@ -67,7 +66,6 @@ public class WebsocketHandler extends WebSocketClient {
 			System.out.println("Error on open web socket");
 		}
 	}
-
 
 
 
