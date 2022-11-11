@@ -1,7 +1,6 @@
 package websocket;
 
 import org.java_websocket.WebSocket;
-import websocket.message.GameEndData;
 
 import java.net.URI;
 import java.net.URISyntaxException;

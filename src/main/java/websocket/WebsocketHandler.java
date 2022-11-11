@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import simulator.GameProcess;
+import simulator.game.GameEndData;
+import simulator.game.GameUpdateData;
 import websocket.message.*;
 
 import java.net.URI;

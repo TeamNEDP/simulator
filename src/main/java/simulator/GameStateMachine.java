@@ -2,18 +2,15 @@ package simulator;
 
 import simulator.game.*;
 import websocket.*;
-import websocket.message.GameUpdateData;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class GameStateMachine {
     GameStartData data;
