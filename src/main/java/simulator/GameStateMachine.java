@@ -18,6 +18,10 @@ public class GameStateMachine {
     GameMap currentGameState;
     GameResult result;
     WebsocketHandler handler;
+    GameTick tick;
+    GameStat r_stat;
+    GameStat b_stat;
+    int num;
     int time;
     int first_to_play;
     // private ...
@@ -43,79 +47,14 @@ public class GameStateMachine {
      */
     public boolean tick(ExecutorService service) {
         // TODO
-        //改动的格子数
-        int num=1;
-        //新建游戏刻
-        GameTick tick=new GameTick();
-        //新建游戏状态
-        GameStat r_stat=new GameStat();
-        GameStat b_stat=new GameStat();
-        //时间增加
-        time++;
-        result.b_stat.rounds=time; 
-        result.r_stat.rounds=time;
+        //初始化
+        init();
         //每刻城堡/皇冠增加
-        for(MapGrid a:game.map.grid)
-        {
-            if(a.type=="R"||a.type=="B"||a.type=="CR"||a.type=="CB")
-            {
-                a.soldiers++;
-                tick.changes=Arrays.copyOf(tick.changes,num);
-                tick.changes[num-1]=a;
-                num++;
-            }
-        }
-        for(MapGrid a:game.map.grid)
-        {
-            if(a.type=="B"||a.type=="CB")
-            {
-                result.b_stat.soldiers_total++;
-            }
-            else if(a.type=="R"||a.type=="CR")
-            {
-                result.r_stat.soldiers_total++;
-            }
-        }
+        increase();
         //每50刻空地统一增加
-        if(time%50==0)
-        {
-            for(MapGrid a:game.map.grid)
-            {
-                if(a.type=="LB"||a.type=="LR")
-                {
-                    a.soldiers++;
-                    tick.changes= Arrays.copyOf(tick.changes,num);
-                    tick.changes[num-1]=a;
-                    num++;
-                }
-            }
-            for(MapGrid a:game.map.grid)
-            {
-                if(a.type=="LB")
-                {
-                    result.b_stat.soldiers_total++;
-                }
-                else if(a.type=="LR")
-                {
-                    result.r_stat.soldiers_total++;
-                }
-            }
-        }
-        r_stat.map=game.map;
-        b_stat.map=game.map;
-        for(MapGrid a:game.map.grid)
-        {
-            if(a.type=="LB"||a.type=="B"||a.type=="CB")
-            {
-                r_stat.enemy_lands++;
-                r_stat.enemy_soldiers+=a.soldiers;
-            }
-            else if(a.type=="LR"||a.type=="R"||a.type=="CR")
-            {
-                b_stat.enemy_lands++;
-                b_stat.enemy_soldiers+=a.soldiers;
-            }
-        }
+        if(time%50==0) increase_all();
+        //维护当前玩家状态
+        update();
         //调用户脚本
         ScriptEngineManager engineManager = new ScriptEngineManager();
         ScriptEngine engine = engineManager.getEngineByName("nashorn");
@@ -413,5 +352,88 @@ public class GameStateMachine {
         }
         handler.sendGameUpdateData(new GameUpdateData(data.id,tick));
         return false;
+    }
+    void init()
+    {
+        //改动的格子数
+        num=1;
+        //新建游戏刻
+        tick=new GameTick();
+        //新建游戏状态
+        r_stat=new GameStat();
+        b_stat=new GameStat();
+        //时间增加
+        time++;
+        result.b_stat.rounds=time; 
+        result.r_stat.rounds=time;
+    }
+    void increase()
+    {
+        for(MapGrid a:game.map.grid)
+        {
+            if(a.type=="R"||a.type=="B"||a.type=="CR"||a.type=="CB")
+            {
+                a.soldiers++;
+                tick.changes=Arrays.copyOf(tick.changes,num);
+                tick.changes[num-1]=a;
+                num++;
+            }
+        }
+        for(MapGrid a:game.map.grid)
+        {
+            if(a.type=="B"||a.type=="CB")
+            {
+                result.b_stat.soldiers_total++;
+            }
+            else if(a.type=="R"||a.type=="CR")
+            {
+                result.r_stat.soldiers_total++;
+            }
+        }
+    }
+
+    void increase_all()
+    {
+        
+            for(MapGrid a:game.map.grid)
+            {
+                if(a.type=="LB"||a.type=="LR")
+                {
+                    a.soldiers++;
+                    tick.changes= Arrays.copyOf(tick.changes,num);
+                    tick.changes[num-1]=a;
+                    num++;
+                }
+            }
+            for(MapGrid a:game.map.grid)
+            {
+                if(a.type=="LB")
+                {
+                    result.b_stat.soldiers_total++;
+                }
+                else if(a.type=="LR")
+                {
+                    result.r_stat.soldiers_total++;
+                }
+            }
+    }
+
+    void update()
+    {
+        r_stat.map=game.map;
+        b_stat.map=game.map;
+        for(MapGrid a:game.map.grid)
+        {
+            if(a.type=="LB"||a.type=="B"||a.type=="CB")
+            {
+                r_stat.enemy_lands++;
+                r_stat.enemy_soldiers+=a.soldiers;
+            }
+            else if(a.type=="LR"||a.type=="R"||a.type=="CR")
+            {
+                b_stat.enemy_lands++;
+                b_stat.enemy_soldiers+=a.soldiers;
+            }
+        }
     }
 }
