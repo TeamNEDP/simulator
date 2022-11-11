@@ -26,7 +26,7 @@ public class GameStateMachine {
 
     // script
 
-    public GameStateMachine(GameStartData data_1) {
+    public GameStateMachine(GameStartData data_1,WebsocketHandler handler_1) {
         // gamesettings initialize
         time=0;
         Random random = new Random();
@@ -34,6 +34,7 @@ public class GameStateMachine {
         result=new GameResult();
         data=data_1;
         game=data.setting;
+        handler=handler_1;
     }
 
     /**
@@ -167,8 +168,7 @@ public class GameStateMachine {
         if(tick.action==null)
         {
             tick.action_valid =false;
-            GameUpdateData u_data=new GameUpdateData(data.id,tick);
-            handler.sendGameUpdateData(u_data);
+            handler.sendGameUpdateData(new GameUpdateData(data.id,tick));
             return false;
         }
         else
@@ -176,8 +176,7 @@ public class GameStateMachine {
             if(tick.action.moveaction.x<0||tick.action.moveaction.y<0||tick.action.moveaction.x>=game.map.width||tick.action.moveaction.y>=game.map.height)
             {
                 tick.action_valid =false;
-                GameUpdateData u_data=new GameUpdateData(data.id,tick);
-                handler.sendGameUpdateData(u_data);
+                handler.sendGameUpdateData(new GameUpdateData(data.id,tick));
                 return false;
             }
             MapGrid temp=game.map.grid[tick.action.moveaction.x*game.map.height+tick.action.moveaction.y];
@@ -186,8 +185,7 @@ public class GameStateMachine {
             {
                 if(temp.type!="R"&&temp.type!="CR"&&temp.type!="LR") {
                     tick.action_valid =false;
-                    GameUpdateData u_data=new GameUpdateData(data.id,tick);
-                    handler.sendGameUpdateData(u_data);
+                    handler.sendGameUpdateData(new GameUpdateData(data.id,tick));
                     return false;
                 }
             }
@@ -195,8 +193,7 @@ public class GameStateMachine {
             {
                 if(temp.type!="B"&&temp.type!="CB"&&temp.type!="LB") {
                     tick.action_valid =false;
-                    GameUpdateData u_data=new GameUpdateData(data.id,tick);
-                    handler.sendGameUpdateData(u_data);
+                    handler.sendGameUpdateData(new GameUpdateData(data.id,tick));
                     return false;
                 }
             }
@@ -204,8 +201,7 @@ public class GameStateMachine {
             if(temp.soldiers<=tick.action.moveaction.amount)
             {
                 tick.action_valid =false;
-                GameUpdateData u_data=new GameUpdateData(data.id,tick);
-                handler.sendGameUpdateData(u_data);
+                handler.sendGameUpdateData(new GameUpdateData(data.id,tick));
                 return false;
             }
             //判断要去的格子
@@ -230,8 +226,7 @@ public class GameStateMachine {
             if(to_x<0||to_y<0||to_x>=game.map.width||to_y>=game.map.height)
             {
                 tick.action_valid =false;
-                GameUpdateData u_data=new GameUpdateData(data.id,tick);
-                handler.sendGameUpdateData(u_data);
+                handler.sendGameUpdateData(new GameUpdateData(data.id,tick));
                 return false;
             }
             MapGrid to_grid=game.map.grid[to_x*game.map.height+to_y];
@@ -239,8 +234,7 @@ public class GameStateMachine {
             if(to_grid.type=="M"||to_grid.type=="MF")
             {
                 tick.action_valid =false;
-                GameUpdateData u_data=new GameUpdateData(data.id,tick);
-                handler.sendGameUpdateData(u_data);
+                handler.sendGameUpdateData(new GameUpdateData(data.id,tick));
                 return false;
             }
             tick.action_valid=true;
@@ -290,9 +284,7 @@ public class GameStateMachine {
                                 else if(a.type=="B"||a.type=="CB"||a.type=="LB")
                                     result.b_stat.grids_taken++;
                             }
-                            GameEndData e_data=new GameEndData(data.id, result);
                             handler.sendGameEndData(new GameEndData(data.id, result));
-                            handler.sendGameEndData(e_data);
                             return true;
                         }
                         //占领城堡
@@ -345,8 +337,7 @@ public class GameStateMachine {
                                 else if(a.type=="B"||a.type=="CB"||a.type=="LB")
                                     result.b_stat.grids_taken++;
                             }
-                            GameEndData e_data=new GameEndData(data.id, result);
-                            handler.sendGameEndData(e_data);
+                            handler.sendGameEndData(new GameEndData(data.id, result));
                             return true;
                         }
                         //占领城堡
@@ -420,8 +411,7 @@ public class GameStateMachine {
                 num++;
             }
         }
-        GameUpdateData u_data=new GameUpdateData(data.id,tick);
-        handler.sendGameUpdateData(u_data);
+        handler.sendGameUpdateData(new GameUpdateData(data.id,tick));
         return false;
     }
 }
