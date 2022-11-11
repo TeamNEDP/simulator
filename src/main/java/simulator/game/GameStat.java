@@ -15,7 +15,7 @@ public class GameStat {
 		enemy_lands=0;
 	}
 
-	public GameStat fromGameMap(String user, GameMapState map) {
+	public  GameStat fromGameMap(String user, GameMapState map) {
 		// TODO
 		if(user.equals("R"))user="B";
 		else user="R";

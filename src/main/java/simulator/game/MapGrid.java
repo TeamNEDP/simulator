@@ -38,15 +38,26 @@ public class MapGrid {
 		}
 	}
 
-	public void conquer(String user,int amount)
+	public String belongto()
+	{
+		if(type.equals("R")||type.equals("LR")||type.equals("CR")) return "R";
+		else return "B";	
+	}
+
+	public void conquer(String user,int amount,GameResult result)
 	{
 		if(soldiers<amount)
 		{
 			soldiers=amount-soldiers;
 			if(isLand()) type="L"+user;
 			else type="C"+user;
+			result.updateKill(user,soldiers);
 		}
-		else kill(amount);
+		else 
+		{
+			kill(amount);
+			result.updateKill(user,amount);
+		}
 	}
 	/**
 	 * description
