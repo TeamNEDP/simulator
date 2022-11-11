@@ -24,6 +24,9 @@ public class GameStateMachine {
 	GameTick tick;
 	GameStat r_stat;
 	GameStat b_stat;
+    ScriptEngine engine_r;
+    ScriptEngine engine_b;
+    ScriptEngineManager engineManager;
 	int num;
 	int time;
 	int first_to_play;
@@ -33,16 +36,19 @@ public class GameStateMachine {
 
 	// script
 
-	public GameStateMachine(GameStartData data,ScheduledExecutorService service,WebsocketHandler handler) {
+	public GameStateMachine(GameStartData data,ScheduledExecutorService service,WebsocketHandler handler) throws ScriptException {
 		// gamesettings initialize
 		time=0;
-		Random random = new Random();
-		first_to_play=random.nextInt(2);
 		result=new GameResult();
 		this.data = data;
 		game=data.setting;
 		this.handler=handler;
 		this.service = service;
+        engineManager = new ScriptEngineManager();
+		engine_r = engineManager.getEngineByName("nashorn_r");
+        engine_b = engineManager.getEngineByName("nashorn_b");
+        engine_r.eval(game.r.script);
+        engine_b.eval(game.b.script);
 	}
 
 	/**
@@ -60,35 +66,7 @@ public class GameStateMachine {
 		//维护当前玩家状态
 		update();
 		//调用户脚本
-		ScriptEngineManager engineManager = new ScriptEngineManager();
-		ScriptEngine engine = engineManager.getEngineByName("nashorn");
-		if(time%2==1)
-		{
-
-			if(first_to_play==1)
-			{
-				tick.operator="R";
-				engine.eval(game.r.script);
-			}
-			else
-			{
-				tick.operator="B";
-				engine.eval(game.b.script);
-			}
-		}
-		else
-		{
-			if(first_to_play==0)
-			{
-				tick.operator="R";
-				engine.eval(game.r.script);
-			}
-			else
-			{
-				tick.operator="B";
-				engine.eval(game.b.script);
-			}
-		}
+        tick.judge_operator(time%2+first_to_play);
 
 		//传给用户脚本的参数
 		final var thread = Thread.currentThread();
@@ -101,6 +79,7 @@ public class GameStateMachine {
 
 
 		try {
+            if(tick.operator)
 			tick.action = (GameAction) engine.eval("Tick(" + new Gson().toJson(new GameStat()) + ")");
 		} catch (ScriptException ex) {
 			tick.action = null;
@@ -357,6 +336,9 @@ public class GameStateMachine {
 	}
 	void init()
 	{
+        //随机先手
+        Random random = new Random();
+        if(time%2==0) first_to_play=random.nextInt(2);
 		//改动的格子数
 		num=1;
 		//新建游戏刻
