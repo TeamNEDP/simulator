@@ -17,20 +17,23 @@ public class GameProcess implements Runnable {
     GameSetting game;
     GameStateMachine machine;
     ExecutorService service;
-    WebsocketHandler handler_1;
-    public GameProcess(GameSetting game_1,ExecutorService service_1,WebsocketHandler handler_1) {
+    WebsocketHandler handler;
+    public GameProcess(GameStartData game_1,ExecutorService service_1,WebsocketHandler handler_1) {
         // input game state
         s_data=game_1;
-        game=s_data;
+        game=s_data.setting;
         service=service_1;
-        machine=new GameStateMachine(game);
+        machine=new GameStateMachine(s_data,handler);
+        handler=handler_1;
     }
 
     @Override
     public void run() {
         for (; ; ) {
+            var start = System.currentTimeMillis();
             if(machine.tick(service)) break;
-
+            var took = System.currentTimeMillis() - start;
+			Thread.sleep(500 - took);
         }
     }
 }
