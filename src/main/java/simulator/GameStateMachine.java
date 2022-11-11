@@ -90,7 +90,6 @@ public class GameStateMachine {
 			}
 		}
 
-		Invocable invocable = (Invocable) engine;
 		//传给用户脚本的参数
 		final var thread = Thread.currentThread();
 		final var done = new AtomicBoolean(false);
@@ -100,7 +99,6 @@ public class GameStateMachine {
 			}
 		}, 500, TimeUnit.MILLISECONDS);
 
-		var start = System.currentTimeMillis();
 
 		try {
 			tick.action = (GameAction) engine.eval("Tick(" + new Gson().toJson(new GameStat()) + ")");
