@@ -1,27 +1,18 @@
 package simulator;
 
-import com.google.gson.Gson;
 import simulator.game.*;
-import websocket.*;
+import websocket.WebsocketHandler;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class GameStateMachine {
 	private final GameMapState currentGameState;
-	private final ScheduledExecutorService service;
 	private final WebsocketHandler handler;
 
-	private UserScriptRunner rRunner, bRunner;
-	private int current;
-	private String id;
+	private final UserScriptRunner rRunner, bRunner;
+	private int current, time;
+	private final String id;
 
 	// private ...
 
@@ -33,7 +24,6 @@ public class GameStateMachine {
 		this.id = data.id;
 		currentGameState = new GameMapState(data.setting.map);
 		this.handler = handler;
-		this.service = service;
 		this.rRunner = new UserScriptRunner(data.setting.r.script, service);
 		this.bRunner = new UserScriptRunner(data.setting.b.script, service);
 		this.current = new Random().nextInt(2);
@@ -44,7 +34,20 @@ public class GameStateMachine {
 	 */
 	public boolean tick() {
 		// invoke user script
-		Movement action = null;
+
+		time++;
+		if (time % 2 == 0) {
+			currentGameState.incSoldier();
+		}
+
+		if (time % 2 == 0) {
+			current = new Random().nextInt(2);
+		} else {
+			current ^= 1;
+		}
+
+
+		MoveAction action;
 		if (current == 1) {
 			GameStat stat = GameStat.fromGameMap("r", currentGameState);
 			action = rRunner.run(stat);
@@ -53,12 +56,15 @@ public class GameStateMachine {
 			action = bRunner.run(stat);
 		}
 
-		var tick = currentGameState.applyMovement(current == 1 ? "r" : "b", action);
+		var tick = currentGameState.applyMoveAction(current == 1 ? "r" : "b", action);
 
 		handler.sendGameUpdateData(new GameUpdateData(id, tick));
 
-		current ^= 1;
-
-		return currentGameState.finished();
+		if (currentGameState.finished()) {
+			handler.sendGameEndData(new GameEndData(id, currentGameState.getResult()));
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

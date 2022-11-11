@@ -1,10 +1,8 @@
 package simulator;
 
-import simulator.game.GameSetting;
 import simulator.game.GameStartData;
-import websocket.*;
+import websocket.WebsocketHandler;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class GameProcess implements Runnable {
@@ -29,7 +27,10 @@ public class GameProcess implements Runnable {
 				var start = System.currentTimeMillis();
 				if (machine.tick()) break;
 				var took = System.currentTimeMillis() - start;
-				Thread.sleep(500 - took);
+				if (took < 500) {
+					//noinspection BusyWait
+					Thread.sleep(500 - took);
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

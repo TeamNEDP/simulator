@@ -7,4 +7,6 @@ public class MoveAction {
     public int y;
     public int amount;
     public char movement;
+
+    
 }

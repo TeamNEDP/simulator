@@ -1,17 +1,22 @@
 package simulator;
 
 import simulator.game.GameMap;
+import simulator.game.GameResult;
 import simulator.game.GameTick;
-import simulator.game.Movement;
+import simulator.game.MoveAction;
 
 public class GameMapState {
 	GameMap gameMap;
-	public GameMapState(GameMap gameMap)
-	{
+
+	public GameMapState(GameMap gameMap) {
 		this.gameMap = gameMap;
 	}
 
-	public GameTick applyMovement(String user, Movement movement) {
+	public void incSoldier() {
+		// TODO
+	}
+
+	public GameTick applyMoveAction(String user, MoveAction movement) {
 		// TODO
 
 		// 1. check soldiers amount
@@ -22,7 +27,12 @@ public class GameMapState {
 	}
 
 	public boolean finished() {
+		// TODO
+	}
 
+	public GameResult getResult() {
+		if (!finished()) throw new IllegalStateException();
+		// TODO
 	}
 
 }
