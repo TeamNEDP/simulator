@@ -23,14 +23,14 @@ public class GameStateMachine {
 		this.current = new Random().nextInt(2);
 	}
 
-	private void incTick() {
+	private void incTick(GameTick tick) {
 		time++;
 		if (time % 2 == 0) {
-			currentGameState.incSoldierPerTick();
+			currentGameState.incSoldierPerTick(tick);
 		}
 
 		if (time % 50 == 0) {
-			currentGameState.incSoldierPerRound();
+			currentGameState.incSoldierPerRound(tick);
 		}
 
 		if (time % 2 == 0) {
@@ -44,8 +44,8 @@ public class GameStateMachine {
 	 * @return whether the game ends
 	 */
 	public boolean tick() {
-
-		incTick();
+		GameTick tick=new GameTick(" ", null);
+		incTick(tick);
 
 		// invoke user script
 		MoveAction action;
@@ -56,8 +56,7 @@ public class GameStateMachine {
 			GameStat stat = new GameStat(currentGameState.gameMap).fromGameMap("B", currentGameState);
 			action = bRunner.run(stat);
 		}
-
-		var tick = currentGameState.applyMoveAction(current == 1 ? "R" : "B", action);
+		currentGameState.applyMoveAction(time,current == 1 ? "R" : "B", action,tick);
 
 		handler.sendGameUpdateData(new GameUpdateData(id, tick));
 
