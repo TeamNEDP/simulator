@@ -49,4 +49,11 @@ public class MapGrid {
 	public boolean canConquer() {
 		return isLand() || isCrownOrCastle();
 	}
+
+	public void change(String user,boolean flag)
+	{
+		if(isBelongTo(user)||flag) return;
+		if(isCrownOrCastle()) type="MF";
+		else  type="F";
+	}
 }

@@ -16,7 +16,7 @@ public class GameMapState {
 			if (gameMap.grid[i].isCrownOrCastle()) {
 				gameMap.grid[i].soldiers++;
 				result.updateSoldier(gameMap.grid[i].BelongTo());
-				tick.addChange(gameMap.grid[i]);
+				tick.addChange(gameMap.grid[i],i%gameMap.width,i/gameMap.width);
 			}
 		}
 	}
@@ -26,7 +26,7 @@ public class GameMapState {
 			if (gameMap.grid[i].isLand()) {
 				gameMap.grid[i].soldiers++;
 				result.updateSoldier(gameMap.grid[i].BelongTo());
-				tick.addChange(gameMap.grid[i]);
+				tick.addChange(gameMap.grid[i],i%gameMap.width,i/gameMap.width);
 			}
 		}
 	}
@@ -58,13 +58,13 @@ public class GameMapState {
 
 		result.updateMove(user);
 		gameMap.grid[gameMap.get_pos(movement.x, movement.y)].kill(movement.amount);
-		tick.addChange(gameMap.grid[gameMap.get_pos(movement.x, movement.y)]);
+		tick.addChange(gameMap.grid[gameMap.get_pos(movement.x, movement.y)],movement.x,movement.y);
 		if (gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())].isBelongTo(user)) {
 			gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())].kill(-movement.amount);
 		} else
 			gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())].conquer(user, movement.amount, result);
 		// return result
-		tick.addChange(gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())]);
+		tick.addChange(gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())],movement.xAttention(),movement.yAttention());
 	}
 
 	public boolean finished() {
