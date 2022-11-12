@@ -1,16 +1,11 @@
 package simulator.game;
 
-import javax.print.DocFlavor.STRING;
-
-import simulator.game.*;
-import simulator.game.UserGameStat;
-
 public class GameResult {
 	public String winner;
 	public UserGameStat r_stat;
 	public UserGameStat b_stat;
 
-	public GameResult(int time) {
+	public GameResult() {
 		r_stat = new UserGameStat();
 		b_stat = new UserGameStat();
 	}

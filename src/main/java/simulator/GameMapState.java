@@ -8,7 +8,7 @@ public class GameMapState {
 
 	public GameMapState(GameMap gameMap) {
 		this.gameMap = gameMap;
-		result = new GameResult(0);
+		result = new GameResult();
 	}
 
 	public void incSoldierPerTick(GameTick tick) {

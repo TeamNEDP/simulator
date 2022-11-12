@@ -1,7 +1,6 @@
 package simulator.game;
 
 import simulator.GameMapState;
-import simulator.game.*;
 
 public class GameStat {
 	public GameMap map;
@@ -16,7 +15,6 @@ public class GameStat {
 	}
 
 	public  GameStat fromGameMap(String user, GameMapState map) {
-		// TODO
 		if(user.equals("R"))user="B";
 		else user="R";
 		GameStat gamestat=new GameStat(map.gameMap);

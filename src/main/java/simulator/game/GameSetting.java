@@ -1,7 +1,5 @@
 package simulator.game;
 
-import simulator.game.*;
-
 public class GameSetting {
 
     public String id;
