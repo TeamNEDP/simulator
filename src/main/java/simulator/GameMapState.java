@@ -2,6 +2,8 @@ package simulator;
 
 import simulator.game.*;
 
+import java.util.Arrays;
+
 public class GameMapState {
 	public GameMap gameMap;
 	private final GameResult result;
@@ -12,23 +14,19 @@ public class GameMapState {
 	}
 
 	public void incSoldierPerTick(GameTick tick) {
-		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
-			if (gameMap.grid[i].isCrownOrCastle()) {
-				gameMap.grid[i].soldiers++;
-				result.updateSoldier(gameMap.grid[i].BelongTo());
-				tick.addChange(gameMap.grid[i]);
-			}
-		}
+		Arrays.stream(gameMap.grid).filter(MapGrid::isCrownOrCastle).forEach(g -> {
+			g.soldiers++;
+			result.updateSoldier(g.BelongTo());
+			tick.addChange(g);
+		});
 	}
 
 	public void incSoldierPerRound(GameTick tick) {
-		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
-			if (gameMap.grid[i].isLand()) {
-				gameMap.grid[i].soldiers++;
-				result.updateSoldier(gameMap.grid[i].BelongTo());
-				tick.addChange(gameMap.grid[i]);
-			}
-		}
+		Arrays.stream(gameMap.grid).filter(MapGrid::isLand).forEach(g -> {
+			g.soldiers++;
+			result.updateSoldier(g.BelongTo());
+			tick.addChange(g);
+		});
 	}
 
 	public boolean checkValid(String user, MoveAction movement) {
