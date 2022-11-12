@@ -18,6 +18,7 @@ public class GameStat {
 		if(user.equals("R"))user="B";
 		else user="R";
 		GameStat gamestat=new GameStat(map.gameMap);
+		gamestat.map.change(user);
 		for(int i = 0; i < this.map.height * this.map.width; i++ )
 		{
 			if(this.map.grid[i].isBelongTo(user))
