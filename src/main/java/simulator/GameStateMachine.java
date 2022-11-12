@@ -44,7 +44,7 @@ public class GameStateMachine {
 	 * @return whether the game ends
 	 */
 	public boolean tick() {
-		GameTick tick=new GameTick(" ", null);
+		GameTick tick = new GameTick(" ", null);
 		incTick(tick);
 
 		// invoke user script
@@ -56,7 +56,7 @@ public class GameStateMachine {
 			GameStat stat = new GameStat(currentGameState.gameMap).fromGameMap("B", currentGameState);
 			action = bRunner.run(stat);
 		}
-		currentGameState.applyMoveAction(current == 1 ? "R" : "B", action,tick);
+		currentGameState.applyMoveAction(current == 1 ? "R" : "B", action, tick);
 
 		handler.sendGameUpdateData(new GameUpdateData(id, tick));
 
