@@ -57,7 +57,7 @@ public class GameStateMachine {
 			action = bRunner.run(stat);
 		}
 
-		var tick = currentGameState.applyMoveAction(time,current == 1 ? "R" : "B", action);
+		var tick = currentGameState.applyMoveAction(current == 1 ? "R" : "B", action);
 
 		handler.sendGameUpdateData(new GameUpdateData(id, tick));
 

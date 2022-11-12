@@ -4,11 +4,13 @@ import simulator.game.*;
 
 public class GameMapState {
 	public GameMap gameMap;
-	public GameResult result;
+	private final GameResult result;
+	private final GameTick tick;
 
 	public GameMapState(GameMap gameMap) {
 		this.gameMap = gameMap;
 		result = new GameResult(0);
+		tick = new GameTick(null, null);
 	}
 
 	public void incSoldierPerTick() {
@@ -16,6 +18,7 @@ public class GameMapState {
 			if (gameMap.grid[i].isCrownOrCastle()) {
 				gameMap.grid[i].soldiers++;
 				result.updateSoldier(gameMap.grid[i].BelongTo());
+				tick.addChange(gameMap.grid[i]);
 			}
 		}
 	}
@@ -25,6 +28,7 @@ public class GameMapState {
 			if (gameMap.grid[i].isLand()) {
 				gameMap.grid[i].soldiers++;
 				result.updateSoldier(gameMap.grid[i].BelongTo());
+				tick.addChange(gameMap.grid[i]);
 			}
 		}
 	}
@@ -46,11 +50,8 @@ public class GameMapState {
 	}
 
 
-	public GameTick applyMoveAction(int time, String user, MoveAction movement) {
-
-		GameTick tick = new GameTick(user, movement);
-		// change to Land
-		tick.update(time, gameMap);
+	public GameTick applyMoveAction(String user, MoveAction movement) {
+		tick.operator = user; tick.action = movement;
 
 		if (!checkValid(user, movement)) {
 			tick.action_valid = false;

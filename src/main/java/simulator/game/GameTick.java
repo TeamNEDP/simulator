@@ -2,8 +2,6 @@ package simulator.game;
 
 import java.util.Arrays;
 
-import simulator.game.*;
-
 public class GameTick {
 	public MapGrid[] changes;
 	public String operator;
@@ -20,18 +18,5 @@ public class GameTick {
 	public void addChange(MapGrid grid) {
 		changes[changes.length - 1] = grid;
 		changes = Arrays.copyOf(changes, changes.length + 1);
-	}
-
-	public void update(int time, GameMap gameMap) {
-		if (time % 2 == 0) {
-			for (int i = 0; i < gameMap.height * gameMap.width; i++)
-				if (gameMap.grid[i].isCrownOrCastle())
-					addChange(gameMap.grid[i]);
-		}
-		if (time % 50 == 0) {
-			for (int i = 0; i < gameMap.height * gameMap.width; i++)
-				if (gameMap.grid[i].isLand())
-					addChange(gameMap.grid[i]);
-		}
 	}
 }
