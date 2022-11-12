@@ -9,7 +9,6 @@ public class GameMapState {
 	public GameMapState(GameMap gameMap) {
 		this.gameMap = gameMap;
 		result = new GameResult(0);
-		tick = new GameTick(null, null);
 	}
 
 	public void incSoldierPerTick(GameTick tick) {
@@ -49,7 +48,7 @@ public class GameMapState {
 	}
 
 
-	public void applyMoveAction(int time,String user, MoveAction movement,GameTick tick) {
+	public void applyMoveAction(String user, MoveAction movement,GameTick tick) {
 		tick.operator = user; tick.action = movement;
 
 		if (!checkValid(user, movement)) {
@@ -66,7 +65,6 @@ public class GameMapState {
 			gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())].conquer(user, movement.amount, result);
 		// return result
 		tick.addChange(gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())]);
-		return ;
 	}
 
 	public boolean finished() {

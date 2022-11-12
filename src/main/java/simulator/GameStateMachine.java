@@ -56,7 +56,7 @@ public class GameStateMachine {
 			GameStat stat = new GameStat(currentGameState.gameMap).fromGameMap("B", currentGameState);
 			action = bRunner.run(stat);
 		}
-		currentGameState.applyMoveAction(time,current == 1 ? "R" : "B", action,tick);
+		currentGameState.applyMoveAction(current == 1 ? "R" : "B", action,tick);
 
 		handler.sendGameUpdateData(new GameUpdateData(id, tick));
 
