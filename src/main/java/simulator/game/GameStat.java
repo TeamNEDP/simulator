@@ -22,7 +22,7 @@ public class GameStat {
 		GameStat gamestat=new GameStat(map.gameMap);
 		for(int i = 0; i < this.map.height * this.map.width; i++ )
 		{
-			if(this.map.grid[i].is_belongto(user))
+			if(this.map.grid[i].isBelongTo(user))
 			{
 				gamestat.enemy_lands++;
 				gamestat.enemy_soldiers+=this.map.grid[i].soldiers;

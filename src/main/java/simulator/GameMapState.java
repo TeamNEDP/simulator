@@ -15,7 +15,7 @@ public class GameMapState {
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
 			if (gameMap.grid[i].isCrownOrCastle()) {
 				gameMap.grid[i].soldiers++;
-				result.updateSoldier(gameMap.grid[i].belongto());
+				result.updateSoldier(gameMap.grid[i].BelongTo());
 			}
 		}
 	}
@@ -24,7 +24,7 @@ public class GameMapState {
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
 			if (gameMap.grid[i].isLand()) {
 				gameMap.grid[i].soldiers++;
-				result.updateSoldier(gameMap.grid[i].belongto());
+				result.updateSoldier(gameMap.grid[i].BelongTo());
 			}
 		}
 	}
@@ -34,7 +34,7 @@ public class GameMapState {
 		// 1.check movement's validity
 		if (!movement.checkValid()) return false;
 		// 2.check the grid's owner
-		if (!gameMap.grid[gameMap.get_pos(movement.x, movement.y)].is_belongto(user)) return false;
+		if (!gameMap.grid[gameMap.get_pos(movement.x, movement.y)].isBelongTo(user)) return false;
 		// 3.check map border
 		if (!gameMap.checkBorder(movement.x, movement.y)) return false;
 		// 4. check soldiers amount
@@ -59,13 +59,13 @@ public class GameMapState {
 
 		result.updateMove(user);
 		gameMap.grid[gameMap.get_pos(movement.x, movement.y)].kill(movement.amount);
-		tick.add_change(gameMap.grid[gameMap.get_pos(movement.x, movement.y)]);
-		if (gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())].is_belongto(user)) {
+		tick.addChange(gameMap.grid[gameMap.get_pos(movement.x, movement.y)]);
+		if (gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())].isBelongTo(user)) {
 			gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())].kill(-movement.amount);
 		} else
 			gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())].conquer(user, movement.amount, result);
 		// return result
-		tick.add_change(gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())]);
+		tick.addChange(gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())]);
 		return tick;
 	}
 
@@ -86,7 +86,7 @@ public class GameMapState {
 			if (grid.type.equals("B")) result.winner = "B";
 		}
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
-			if (gameMap.grid[i].is_belongto("R")) {
+			if (gameMap.grid[i].isBelongTo("R")) {
 				result.r_stat.grids_taken++;
 			} else result.b_stat.grids_taken++;
 		}

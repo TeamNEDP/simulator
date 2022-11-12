@@ -27,7 +27,7 @@ public class MapGrid {
 		soldiers-=num;
 	}
 
-	public boolean is_belongto(String user)
+	public boolean isBelongTo(String user)
 	{
 		if(user.equals("R")){
 			return type.equals("R")||type.equals("LR")||type.equals("CR");
@@ -38,7 +38,7 @@ public class MapGrid {
 		}
 	}
 
-	public String belongto()
+	public String BelongTo()
 	{
 		if(type.equals("R")||type.equals("LR")||type.equals("CR")) return "R";
 		else return "B";	

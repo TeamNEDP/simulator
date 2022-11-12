@@ -17,7 +17,7 @@ public class GameTick {
 		changes = new MapGrid[1];
 	}
 
-	public void add_change(MapGrid grid) {
+	public void addChange(MapGrid grid) {
 		changes[changes.length - 1] = grid;
 		changes = Arrays.copyOf(changes, changes.length + 1);
 	}
@@ -26,12 +26,12 @@ public class GameTick {
 		if (time % 2 == 0) {
 			for (int i = 0; i < gameMap.height * gameMap.width; i++)
 				if (gameMap.grid[i].isCrownOrCastle())
-					add_change(gameMap.grid[i]);
+					addChange(gameMap.grid[i]);
 		}
 		if (time % 50 == 0) {
 			for (int i = 0; i < gameMap.height * gameMap.width; i++)
 				if (gameMap.grid[i].isLand())
-					add_change(gameMap.grid[i]);
+					addChange(gameMap.grid[i]);
 		}
 	}
 }
