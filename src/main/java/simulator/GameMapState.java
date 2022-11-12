@@ -2,6 +2,8 @@ package simulator;
 
 import simulator.game.*;
 
+import java.util.Arrays;
+
 public class GameMapState {
 	public GameMap gameMap;
 	private final GameResult result;
