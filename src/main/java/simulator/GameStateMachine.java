@@ -18,8 +18,8 @@ public class GameStateMachine {
 		this.id = data.id;
 		currentGameState = new GameMapState(data.setting.map);
 		this.handler = handler;
-		this.rRunner = new UserScriptRunner(data.setting.r.script, service);
-		this.bRunner = new UserScriptRunner(data.setting.b.script, service);
+		this.rRunner = new UserScriptRunner(data.setting.users.r.script, service);
+		this.bRunner = new UserScriptRunner(data.setting.users.b.script, service);
 		this.current = new Random().nextInt(2);
 	}
 

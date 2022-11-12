@@ -2,10 +2,12 @@ package simulator.game;
 
 public class GameSetting {
 
-    public String id;
     public GameMap map;
 
-    public GameUser r;
-    public GameUser b;
+    public Users users;
+
+    public static class Users{
+        public GameUser r, b;
+    }
 
 }
