@@ -5,7 +5,6 @@ import simulator.game.*;
 public class GameMapState {
 	public GameMap gameMap;
 	private final GameResult result;
-	private final GameTick tick;
 
 	public GameMapState(GameMap gameMap) {
 		this.gameMap = gameMap;
@@ -13,7 +12,7 @@ public class GameMapState {
 		tick = new GameTick(null, null);
 	}
 
-	public void incSoldierPerTick() {
+	public void incSoldierPerTick(GameTick tick) {
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
 			if (gameMap.grid[i].isCrownOrCastle()) {
 				gameMap.grid[i].soldiers++;
@@ -23,7 +22,7 @@ public class GameMapState {
 		}
 	}
 
-	public void incSoldierPerRound() {
+	public void incSoldierPerRound(GameTick tick) {
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
 			if (gameMap.grid[i].isLand()) {
 				gameMap.grid[i].soldiers++;
@@ -50,12 +49,12 @@ public class GameMapState {
 	}
 
 
-	public GameTick applyMoveAction(String user, MoveAction movement) {
+	public void applyMoveAction(int time,String user, MoveAction movement,GameTick tick) {
 		tick.operator = user; tick.action = movement;
 
 		if (!checkValid(user, movement)) {
 			tick.action_valid = false;
-			return tick;
+			return ;
 		}
 
 		result.updateMove(user);
@@ -67,7 +66,7 @@ public class GameMapState {
 			gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())].conquer(user, movement.amount, result);
 		// return result
 		tick.addChange(gameMap.grid[gameMap.get_pos(movement.xAttention(), movement.yAttention())]);
-		return tick;
+		return ;
 	}
 
 	public boolean finished() {
