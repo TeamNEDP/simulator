@@ -2,12 +2,15 @@ package simulator;
 
 import simulator.game.*;
 
+import java.sql.Array;
+
 public class GameMapState {
 	public GameMap gameMap;
 	public GameResult result;
+
 	public GameMapState(GameMap gameMap) {
 		this.gameMap = gameMap;
-		result=new GameResult(0);
+		result = new GameResult(0);
 	}
 
 	public void incSoldierPerTick() {
@@ -28,35 +31,34 @@ public class GameMapState {
 		}
 	}
 
-	public GameTick applyMoveAction(int time,String user, MoveAction movement) {
+	public GameTick applyMoveAction(int time, String user, MoveAction movement) {
 		// TODO
-		GameTick tick=new GameTick(user,movement);
+		GameTick tick = new GameTick(user, movement);
 		//change to Land
-		tick.update(time,gameMap);
+		tick.update(time, gameMap);
 		//-1.check the grid's owner
-		if(!gameMap.grid[gameMap.get_pos(movement.x, movement.y)].is_belongto(user))
-			tick.action_valid=false;
+		if (!gameMap.grid[gameMap.get_pos(movement.x, movement.y)].is_belongto(user))
+			tick.action_valid = false;
 		//0.check map border
-		if(!gameMap.check_border(movement.x,movement.y))
-			tick.action_valid=false;
+		if (!gameMap.check_border(movement.x, movement.y))
+			tick.action_valid = false;
 		// 1. check soldiers amount
-		if(!gameMap.grid[gameMap.get_pos(movement.x, movement.y)].checkAmount(movement.amount))
-			tick.action_valid=false;
+		if (!gameMap.grid[gameMap.get_pos(movement.x, movement.y)].checkAmount(movement.amount))
+			tick.action_valid = false;
 		// 2. check map border
-		if(!gameMap.check_border(movement.Attention_x(),movement.Attention_y()))
-			tick.action_valid=false;
+		if (!gameMap.check_border(movement.Attention_x(), movement.Attention_y()))
+			tick.action_valid = false;
 		// 3. check if grid can conquer
-		if(!gameMap.grid[gameMap.get_pos(movement.x, movement.y)].canConquer())
-			tick.action_valid=false;
-		if(!tick.action_valid) return tick;
+		if (!gameMap.grid[gameMap.get_pos(movement.x, movement.y)].canConquer())
+			tick.action_valid = false;
+		if (!tick.action_valid) return tick;
 		result.updateMove(user);
 		gameMap.grid[gameMap.get_pos(movement.x, movement.y)].kill(movement.amount);
 		tick.add_change(gameMap.grid[gameMap.get_pos(movement.x, movement.y)]);
-		if(gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())].is_belongto(user))
-		{
+		if (gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())].is_belongto(user)) {
 			gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())].kill(-movement.amount);
-		}
-		else gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())].conquer(user,movement.amount,result);
+		} else
+			gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())].conquer(user, movement.amount, result);
 		// return result
 		tick.add_change(gameMap.grid[gameMap.get_pos(movement.Attention_x(), movement.Attention_y())]);
 		return tick;
@@ -76,14 +78,13 @@ public class GameMapState {
 		// TODO
 		result.setTime(time);
 		for (var grid : gameMap.grid) {
-			if (grid.type.equals("R")) result.winner="R";
-			if (grid.type.equals("B")) result.winner="B";
+			if (grid.type.equals("R")) result.winner = "R";
+			if (grid.type.equals("B")) result.winner = "B";
 		}
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
 			if (gameMap.grid[i].is_belongto("R")) {
 				result.r_stat.grids_taken++;
-			}
-			else result.b_stat.grids_taken++;
+			} else result.b_stat.grids_taken++;
 		}
 		return result;
 	}
