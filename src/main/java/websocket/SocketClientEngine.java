@@ -17,9 +17,16 @@ public class SocketClientEngine {
 		client.connect();
 
 		while (!client.getReadyState().equals(ReadyState.OPEN)) {
-			System.out.println("还没有打开");
+			System.out.println("not opened");
 			Thread.sleep(500);
 		}
-		System.out.println("建立 websocket 连接");
+
+		System.out.println("connected to websocket");
+
+		while (client.getReadyState().equals(ReadyState.OPEN)) {
+			System.out.println("Sending ping message");
+			client.sendPing();
+			Thread.sleep(10000);
+		}
 	}
 }

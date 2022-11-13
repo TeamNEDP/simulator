@@ -14,7 +14,7 @@ public class MapGrid {
 	}
 
 	public boolean checkAmount(int num) {
-		return soldiers >= num;
+		return 0 < num && num < soldiers;
 	}
 
 	public void kill(int num) {

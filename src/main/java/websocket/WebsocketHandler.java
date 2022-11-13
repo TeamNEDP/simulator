@@ -38,12 +38,13 @@ public class WebsocketHandler extends WebSocketClient {
 
 	@Override
 	public void onClose(int code, String reason, boolean remote) {
-		System.out.println("连接关闭：" + reason);
+		System.out.println("Connection closed: " + reason);
 	}
 
 	@Override
 	public void onError(Exception ex) {
-		System.out.println("错误：" + ex);
+		System.out.println("error: ");
+		ex.printStackTrace();
 	}
 
 	public synchronized void sendAuthData(AuthData authData) {
@@ -69,7 +70,6 @@ public class WebsocketHandler extends WebSocketClient {
 			System.out.println("Error on open web socket");
 		}
 	}
-
 
 
 }
