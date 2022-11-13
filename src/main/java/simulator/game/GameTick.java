@@ -1,9 +1,10 @@
 package simulator.game;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameTick {
-	public GridChange[] changes;
+	public List<GridChange> changes;
 	public String operator;
 	public MoveAction action;
 	public boolean action_valid;
@@ -12,13 +13,14 @@ public class GameTick {
 		operator = user;
 		action = movement;
 		action_valid = true;
-		changes = new GridChange[1];
+		changes = new ArrayList<>();
 	}
 
-	public void addChange(MapGrid grid,int x,int y) {
-		changes[changes.length - 1].grid=grid;
-		changes[changes.length - 1].x=x;
-		changes[changes.length - 1].y=y;
-		changes = Arrays.copyOf(changes, changes.length + 1);
+	public void addChange(MapGrid grid, int x, int y) {
+		var change = new GridChange();
+		change.grid = grid;
+		change.x = x;
+		change.y = y;
+		changes.add(change);
 	}
 }

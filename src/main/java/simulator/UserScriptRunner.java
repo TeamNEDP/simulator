@@ -36,8 +36,11 @@ public class UserScriptRunner {
 		if (noop) {
 			return null;
 		}
-		return executeWithTimeout(() ->
-				MoveAction.fromObject(engine.eval("Tick(" + new Gson().toJson(stat) + ");")), 500, service
+		return executeWithTimeout(() -> {
+					var res = engine.eval("Tick(" + new Gson().toJson(stat) + ");");
+					if (res == null) return null;
+					return MoveAction.fromObject(res);
+				}, 500, service
 		);
 	}
 

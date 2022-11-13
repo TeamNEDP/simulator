@@ -9,14 +9,16 @@ import simulator.game.GameUpdateData;
 import websocket.message.*;
 
 import java.net.URI;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.*;
 
 public class WebsocketHandler extends WebSocketClient {
 	final int MAX_SLOTS = 100;
 	ScheduledExecutorService service;
 	AuthData authData;
+
+	Map<String, Future<?>> games = new ConcurrentHashMap<>();
 
 	WebsocketHandler(URI url, String str) {
 		super(url);
@@ -30,10 +32,11 @@ public class WebsocketHandler extends WebSocketClient {
 	}
 
 	@Override
-	public void onMessage(String message) {
+	public synchronized void onMessage(String message) {
+		System.out.println("Message got.");
 		var gameStartData = new Gson().fromJson(message, GameStartMessage.class).data;
-
-		service.submit(new GameProcess(gameStartData, service, this));
+		Optional.ofNullable(games.get(gameStartData.id)).ifPresent(f -> f.cancel(true));
+		games.put(gameStartData.id, service.submit(new GameProcess(gameStartData, service, this)));
 	}
 
 	@Override
@@ -61,6 +64,7 @@ public class WebsocketHandler extends WebSocketClient {
 		} catch (Exception ex) {
 			System.out.println("Error on open web socket");
 		}
+		System.out.println("GameUpdateData sent.");
 	}
 
 	public synchronized void sendGameEndData(GameEndData gameEndData) {
@@ -69,6 +73,7 @@ public class WebsocketHandler extends WebSocketClient {
 		} catch (Exception ex) {
 			System.out.println("Error on open web socket");
 		}
+		System.out.println("GameEndData sent.");
 	}
 
 

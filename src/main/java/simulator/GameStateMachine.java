@@ -50,15 +50,15 @@ public class GameStateMachine {
 		// invoke user script
 		MoveAction action;
 		if (current == 1) {
-			GameStat stat = new GameStat(currentGameState.gameMap).fromGameMap("R", currentGameState);
+			GameStat stat = GameStat.fromGameMap("R", currentGameState);
 			action = rRunner.run(stat);
 		} else {
-			GameStat stat = new GameStat(currentGameState.gameMap).fromGameMap("B", currentGameState);
+			GameStat stat = GameStat.fromGameMap("B", currentGameState);
 			action = bRunner.run(stat);
 		}
 		currentGameState.applyMoveAction(current == 1 ? "R" : "B", action, tick);
 
-		handler.sendGameUpdateData(new GameUpdateData(id, tick));
+		handler. sendGameUpdateData(new GameUpdateData(id, tick));
 
 		if (currentGameState.finished()) {
 			handler.sendGameEndData(new GameEndData(id, currentGameState.getResult(time)));

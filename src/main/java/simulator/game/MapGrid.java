@@ -4,6 +4,13 @@ public class MapGrid {
 	public String type;
 	public int soldiers;
 
+	public MapGrid copy() {
+		var res = new MapGrid();
+		res.type = type;
+		res.soldiers = soldiers;
+		return res;
+	}
+
 
 	public boolean isCrownOrCastle() {
 		return type.equals("R") || type.equals("B") || type.equals("CR") || type.equals("CB");
@@ -29,7 +36,7 @@ public class MapGrid {
 		}
 	}
 
-	public String BelongTo() {
+	public String belongTo() {
 		if (type.equals("R") || type.equals("LR") || type.equals("CR")) return "R";
 		else return "B";
 	}
@@ -50,10 +57,9 @@ public class MapGrid {
 		return isLand() || isCrownOrCastle();
 	}
 
-	public void change(String user,boolean flag)
-	{
-		if(isBelongTo(user)||flag) return;
-		if(isCrownOrCastle()) type="MF";
-		else  type="F";
+	public void change(String user, boolean flag) {
+		if (isBelongTo(user) || flag) return;
+		if (isCrownOrCastle()) type = "MF";
+		else type = "F";
 	}
 }
