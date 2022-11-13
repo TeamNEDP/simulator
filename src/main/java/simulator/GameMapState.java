@@ -36,15 +36,15 @@ public class GameMapState {
 		// 1.check movement's validity
 		if (!movement.checkValid()) return false;
 		// 2.check the grid's owner
-		if (!gameMap.grids[gameMap.get_pos(movement.x, movement.y)].isBelongTo(user)) return false;
+		if (!gameMap.grids[gameMap.getPos(movement.x, movement.y)].isBelongTo(user)) return false;
 		// 3.check map border
 		if (!gameMap.checkBorder(movement.x, movement.y)) return false;
 		// 4. check soldiers amount
-		if (!gameMap.grids[gameMap.get_pos(movement.x, movement.y)].checkAmount(movement.amount)) return false;
+		if (!gameMap.grids[gameMap.getPos(movement.x, movement.y)].checkAmount(movement.amount)) return false;
 		// 5. check map border
 		if (!gameMap.checkBorder(movement.xAttention(), movement.yAttention())) return false;
 		// 6. check if grid can conquer
-		return gameMap.grids[gameMap.get_pos(movement.x, movement.y)].canConquer();
+		return gameMap.grids[gameMap.getPos(movement.x, movement.y)].canConquer();
 	}
 
 
@@ -58,14 +58,14 @@ public class GameMapState {
 		}
 
 		result.updateMove(user);
-		gameMap.grids[gameMap.get_pos(movement.x, movement.y)].kill(movement.amount);
-		tick.addChange(gameMap.grids[gameMap.get_pos(movement.x, movement.y)],movement.x,movement.y);
-		if (gameMap.grids[gameMap.get_pos(movement.xAttention(), movement.yAttention())].isBelongTo(user)) {
-			gameMap.grids[gameMap.get_pos(movement.xAttention(), movement.yAttention())].kill(-movement.amount);
+		gameMap.grids[gameMap.getPos(movement.x, movement.y)].kill(movement.amount);
+		tick.addChange(gameMap.grids[gameMap.getPos(movement.x, movement.y)],movement.x,movement.y);
+		if (gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].isBelongTo(user)) {
+			gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].kill(-movement.amount);
 		} else
-			gameMap.grids[gameMap.get_pos(movement.xAttention(), movement.yAttention())].conquer(user, movement.amount, result);
+			gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].conquer(user, movement.amount, result);
 		// return result
-		tick.addChange(gameMap.grids[gameMap.get_pos(movement.xAttention(), movement.yAttention())],movement.xAttention(),movement.yAttention());
+		tick.addChange(gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())],movement.xAttention(),movement.yAttention());
 	}
 
 	public boolean finished() {

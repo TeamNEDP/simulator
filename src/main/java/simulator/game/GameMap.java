@@ -22,7 +22,7 @@ public class GameMap {
 		return (width > x && height > y && x >= 0 && y >= 0);
 	}
 
-	public int get_pos(int x, int y) {
+	public int getPos(int x, int y) {
 		return x * height + y;
 	}
 
@@ -35,10 +35,10 @@ public class GameMap {
 			boolean flag = false;
 			for (int j = 0; j < 9; j++) {
 				if (!checkBorder(x + dx[j], y + dy[j])) continue;
-				if (grids[get_pos(x + dx[j], y + dy[j])].isBelongTo(user))
+				if (grids[getPos(x + dx[j], y + dy[j])].isBelongTo(user))
 					flag = true;
 			}
-			grids[get_pos(x, y)].change(user, flag);
+			grids[getPos(x, y)].change(user, flag);
 		}
 	}
 }

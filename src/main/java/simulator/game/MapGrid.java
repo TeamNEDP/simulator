@@ -59,7 +59,9 @@ public class MapGrid {
 
 	public void change(String user, boolean flag) {
 		if (isBelongTo(user) || flag) return;
-		if (isCrownOrCastle()) type = "MF";
-		else type = "F";
+		if (isCrownOrCastle()) {
+			type = "MF";
+			soldiers = 0;
+		} else type = "F";
 	}
 }

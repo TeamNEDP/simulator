@@ -16,10 +16,13 @@ import java.util.concurrent.ScheduledExecutorService;
 public class UserScriptRunner {
 	private ScriptEngine engine = null;
 	private final ScheduledExecutorService service;
+
+	private final String color;
 	private final boolean noop;
 
 
-	public UserScriptRunner(UserScript script, ScheduledExecutorService service) {
+	public UserScriptRunner(String color, UserScript script, ScheduledExecutorService service) {
+		this.color = color;
 		this.service = service;
 		if (script.type.equals("javascript")) {
 			this.engine = new ScriptEngineManager().getEngineByName("nashorn");
@@ -37,7 +40,7 @@ public class UserScriptRunner {
 			return null;
 		}
 		return executeWithTimeout(() -> {
-					var res = engine.eval("Tick(" + new Gson().toJson(stat) + ");");
+					var res = engine.eval("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ");");
 					if (res == null) return null;
 					return MoveAction.fromObject(res);
 				}, 500, service
