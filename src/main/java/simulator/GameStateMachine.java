@@ -14,12 +14,14 @@ public class GameStateMachine {
 	private int current, time;
 	private final String id;
 
+	private static final int MAX_TICK = 1000;
+
 	public GameStateMachine(GameStartData data, ScheduledExecutorService service, WebsocketHandler handler) {
 		this.id = data.id;
 		currentGameState = new GameMapState(data.setting.map);
 		this.handler = handler;
-		this.rRunner = new UserScriptRunner("r", data.setting.users.r.script, service);
-		this.bRunner = new UserScriptRunner("b", data.setting.users.b.script, service);
+		this.rRunner = new UserScriptRunner("R", data.setting.users.r.script, service);
+		this.bRunner = new UserScriptRunner("B", data.setting.users.b.script, service);
 		this.current = new Random().nextInt(2);
 	}
 
@@ -43,7 +45,7 @@ public class GameStateMachine {
 	/**
 	 * @return whether the game ends
 	 */
-	public boolean tick() {
+	public synchronized boolean tick() {
 		GameTick tick = new GameTick(" ", null);
 		incTick(tick);
 
@@ -56,12 +58,16 @@ public class GameStateMachine {
 			GameStat stat = GameStat.fromGameMap("B", currentGameState);
 			action = bRunner.run(stat);
 		}
+
 		currentGameState.applyMoveAction(current == 1 ? "R" : "B", action, tick);
 
 		handler.sendGameUpdateData(new GameUpdateData(id, tick));
 
 		if (currentGameState.finished()) {
 			handler.sendGameEndData(new GameEndData(id, currentGameState.getResult(time)));
+			return true;
+		} else if (time >= MAX_TICK) {
+			handler.sendGameEndData(new GameEndData(id, currentGameState.getResultTimeOut(time)));
 			return true;
 		} else {
 			return false;

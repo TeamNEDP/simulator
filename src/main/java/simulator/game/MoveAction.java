@@ -23,8 +23,8 @@ public class MoveAction {
 	}
 
 	public int yAttention() {
-		if (movement == 'U') return y + 1;
-		else if (movement == 'D') return y - 1;
+		if (movement == 'U') return y - 1;
+		else if (movement == 'D') return y + 1;
 		else return y;
 	}
 }

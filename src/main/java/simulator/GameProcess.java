@@ -11,6 +11,7 @@ public class GameProcess implements Runnable {
 	GameStateMachine machine;
 	ScheduledExecutorService service;
 	WebsocketHandler handler;
+	final static int TIME_LIMIT = 50;
 
 	public GameProcess(GameStartData data, ScheduledExecutorService service, WebsocketHandler handler) {
 		// input game state
@@ -27,9 +28,9 @@ public class GameProcess implements Runnable {
 				var start = System.currentTimeMillis();
 				if (machine.tick()) break;
 				var took = System.currentTimeMillis() - start;
-				if (took < 500) {
+				if (took < TIME_LIMIT) {
 					//noinspection BusyWait
-					Thread.sleep(500 - took);
+					Thread.sleep(TIME_LIMIT - took);
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();

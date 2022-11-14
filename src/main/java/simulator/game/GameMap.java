@@ -26,7 +26,7 @@ public class GameMap {
 		return x * height + y;
 	}
 
-	public void change(String user) {
+	public void addFogofWar(String user) {
 		for (int i = 0; i < height * width; i++) {
 			int x = i % width;
 			int y = i / width;

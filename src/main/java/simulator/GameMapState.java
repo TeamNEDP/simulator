@@ -2,6 +2,8 @@ package simulator;
 
 import simulator.game.*;
 
+import java.util.Arrays;
+
 public class GameMapState {
 	public GameMap gameMap;
 	private final GameResult result;
@@ -61,6 +63,7 @@ public class GameMapState {
 		result.updateMove(user);
 		gameMap.grids[gameMap.getPos(movement.x, movement.y)].kill(movement.amount);
 		tick.addChange(gameMap.grids[gameMap.getPos(movement.x, movement.y)], movement.x, movement.y);
+
 		if (gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].isBelongTo(user)) {
 			gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].kill(-movement.amount);
 		} else
@@ -71,25 +74,44 @@ public class GameMapState {
 
 	public boolean finished() {
 		boolean r = false, b = false;
+
 		for (var grid : gameMap.grids) {
 			if (grid.type.equals("R")) r = true;
 			if (grid.type.equals("B")) b = true;
 		}
+
 		return !(r && b);
 	}
 
-	public GameResult getResult(int time) {
-		if (!finished()) throw new IllegalStateException();
+
+	private void initResult(int time) {
 		result.setTime(time);
+		result.r_stat.grids_taken = (int) Arrays.stream(gameMap.grids).filter(g -> g.isBelongTo("R")).count();
+		result.b_stat.grids_taken = (int) Arrays.stream(gameMap.grids).filter(g -> g.isBelongTo("B")).count();
+	}
+
+	public GameResult getResult(int time) {
+		initResult(time);
+
 		for (var grid : gameMap.grids) {
 			if (grid.type.equals("R")) result.winner = "R";
 			if (grid.type.equals("B")) result.winner = "B";
 		}
-		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
-			if (gameMap.grids[i].isBelongTo("R")) {
-				result.r_stat.grids_taken++;
-			} else result.b_stat.grids_taken++;
+
+		return result;
+	}
+
+	public GameResult getResultTimeOut(int time) {
+		initResult(time);
+
+		if (result.r_stat.grids_taken < result.b_stat.grids_taken) {
+			result.winner = "B";
+		} else if (result.r_stat.grids_taken > result.b_stat.grids_taken) {
+			result.winner = "R";
+		} else {
+			result.winner = "D";
 		}
+
 		return result;
 	}
 

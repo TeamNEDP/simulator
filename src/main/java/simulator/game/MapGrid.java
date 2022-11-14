@@ -16,6 +16,10 @@ public class MapGrid {
 		return type.equals("R") || type.equals("B") || type.equals("CR") || type.equals("CB");
 	}
 
+	/**
+	 *
+	 * @return whether it is a Land (vacancy exclusive).
+	 */
 	public boolean isLand() {
 		return type.equals("LR") || type.equals("LB");
 	}
@@ -44,8 +48,8 @@ public class MapGrid {
 	public void conquer(String user, int amount, GameResult result) {
 		if (soldiers < amount) {
 			soldiers = amount - soldiers;
-			if (isLand()) type = "L" + user;
-			else type = "C" + user;
+			if (isCrownOrCastle()) type = "C" + user;
+			else type = "L" + user;
 			result.updateKill(user, soldiers);
 		} else {
 			kill(amount);
@@ -54,7 +58,7 @@ public class MapGrid {
 	}
 
 	public boolean canConquer() {
-		return isLand() || isCrownOrCastle();
+		return type.equals("V") || isLand() || isCrownOrCastle();
 	}
 
 	public void change(String user, boolean flag) {

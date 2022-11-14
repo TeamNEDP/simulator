@@ -14,17 +14,18 @@ public class SocketClientEngine {
 		var secret = System.getenv("SERVER_SECRET");
 
 		WebsocketHandler client = new WebsocketHandler(new URI(url), secret);
-		client.connect();
+		client.connectBlocking();
 
 		while (!client.getReadyState().equals(ReadyState.OPEN)) {
-			System.out.println("not opened");
-			Thread.sleep(500);
+			System.out.println("Cannot connect. Retrying after 10 seconds.");
+			Thread.sleep(10000);
+			client.close();
+			client.connectBlocking();
 		}
 
-		System.out.println("connected to websocket");
+		System.out.println("Connected to websocket.");
 
 		while (client.getReadyState().equals(ReadyState.OPEN)) {
-			System.out.println("Sending ping message");
 			client.sendPing();
 			Thread.sleep(10000);
 		}

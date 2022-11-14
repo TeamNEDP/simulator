@@ -33,8 +33,8 @@ public class WebsocketHandler extends WebSocketClient {
 
 	@Override
 	public synchronized void onMessage(String message) {
-		System.out.println("Message got.");
 		var gameStartData = new Gson().fromJson(message, GameStartMessage.class).data;
+		System.out.println("Start simulating contest: " + gameStartData.id + ".");
 		Optional.ofNullable(games.get(gameStartData.id)).ifPresent(f -> f.cancel(true));
 		games.put(gameStartData.id, service.submit(new GameProcess(gameStartData, service, this)));
 	}
@@ -46,7 +46,7 @@ public class WebsocketHandler extends WebSocketClient {
 
 	@Override
 	public void onError(Exception ex) {
-		System.out.println("error: ");
+		System.out.println("Error: ");
 		ex.printStackTrace();
 	}
 
@@ -54,7 +54,7 @@ public class WebsocketHandler extends WebSocketClient {
 		try {
 			send(new Gson().toJson(new AuthMessage(authData)));
 		} catch (Exception ex) {
-			System.out.println("Error on open web socket");
+			System.out.println("Error on open web socket.");
 		}
 	}
 
@@ -62,9 +62,8 @@ public class WebsocketHandler extends WebSocketClient {
 		try {
 			send(new Gson().toJson(new GameUpdateMessage(gameUpdateData)));
 		} catch (Exception ex) {
-			System.out.println("Error on open web socket");
+			System.out.println("Error on open web socket.");
 		}
-		System.out.println("GameUpdateData sent.");
 	}
 
 	public synchronized void sendGameEndData(GameEndData gameEndData) {
@@ -73,7 +72,7 @@ public class WebsocketHandler extends WebSocketClient {
 		} catch (Exception ex) {
 			System.out.println("Error on open web socket");
 		}
-		System.out.println("GameEndData sent.");
+		System.out.println("End simulating contest: " + gameEndData.id + ".");
 	}
 
 
