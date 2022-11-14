@@ -18,7 +18,7 @@ public class GameMapState {
 			if (gameMap.grids[i].isCrownOrCastle()) {
 				gameMap.grids[i].soldiers++;
 				result.updateSoldier(gameMap.grids[i].belongTo());
-				tick.addChange(gameMap.grids[i], i % gameMap.width, i / gameMap.width);
+				tick.addChange(gameMap.grids[i], i / gameMap.height, i % gameMap.height);
 			}
 		}
 	}
@@ -28,7 +28,7 @@ public class GameMapState {
 			if (gameMap.grids[i].isLand()) {
 				gameMap.grids[i].soldiers++;
 				result.updateSoldier(gameMap.grids[i].belongTo());
-				tick.addChange(gameMap.grids[i], i % gameMap.width, i / gameMap.width);
+				tick.addChange(gameMap.grids[i], i / gameMap.height, i % gameMap.height);
 			}
 		}
 	}
