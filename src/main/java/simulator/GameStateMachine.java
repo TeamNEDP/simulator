@@ -58,7 +58,7 @@ public class GameStateMachine {
 		}
 		currentGameState.applyMoveAction(current == 1 ? "R" : "B", action, tick);
 
-		handler. sendGameUpdateData(new GameUpdateData(id, tick));
+		handler.sendGameUpdateData(new GameUpdateData(id, tick));
 
 		if (currentGameState.finished()) {
 			handler.sendGameEndData(new GameEndData(id, currentGameState.getResult(time)));

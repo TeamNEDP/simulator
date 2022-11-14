@@ -16,7 +16,7 @@ public class GameMapState {
 			if (gameMap.grids[i].isCrownOrCastle()) {
 				gameMap.grids[i].soldiers++;
 				result.updateSoldier(gameMap.grids[i].belongTo());
-				tick.addChange(gameMap.grids[i],i%gameMap.width,i/gameMap.width);
+				tick.addChange(gameMap.grids[i], i % gameMap.width, i / gameMap.width);
 			}
 		}
 	}
@@ -26,7 +26,7 @@ public class GameMapState {
 			if (gameMap.grids[i].isLand()) {
 				gameMap.grids[i].soldiers++;
 				result.updateSoldier(gameMap.grids[i].belongTo());
-				tick.addChange(gameMap.grids[i],i%gameMap.width,i/gameMap.width);
+				tick.addChange(gameMap.grids[i], i % gameMap.width, i / gameMap.width);
 			}
 		}
 	}
@@ -48,24 +48,25 @@ public class GameMapState {
 	}
 
 
-	public void applyMoveAction(String user, MoveAction movement,GameTick tick) {
-		tick.operator = user; tick.action = movement;
+	public void applyMoveAction(String user, MoveAction movement, GameTick tick) {
+		tick.operator = user;
+		tick.action = movement;
 
 
 		if (!checkValid(user, movement)) {
 			tick.action_valid = false;
-			return ;
+			return;
 		}
 
 		result.updateMove(user);
 		gameMap.grids[gameMap.getPos(movement.x, movement.y)].kill(movement.amount);
-		tick.addChange(gameMap.grids[gameMap.getPos(movement.x, movement.y)],movement.x,movement.y);
+		tick.addChange(gameMap.grids[gameMap.getPos(movement.x, movement.y)], movement.x, movement.y);
 		if (gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].isBelongTo(user)) {
 			gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].kill(-movement.amount);
 		} else
 			gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].conquer(user, movement.amount, result);
 		// return result
-		tick.addChange(gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())],movement.xAttention(),movement.yAttention());
+		tick.addChange(gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())], movement.xAttention(), movement.yAttention());
 	}
 
 	public boolean finished() {
