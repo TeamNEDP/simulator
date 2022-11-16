@@ -1,0 +1,72 @@
+kind: pipeline
+type: docker
+name: publish
+
+trigger:
+  event:
+    - push
+  branch:
+    - master
+
+steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - /root/.gradle
+        - ./.gradle
+        - ./gradle
+    volumes:
+      - name: cache
+        path: /cache
+      - name: gradle
+        path: /root/.gradle
+  - name: build
+    image: azul/zulu-openjdk:11-latest
+    commands:
+      - ./gradlew build
+    volumes:
+      - name: gradle
+        path: /root/.gradle
+    depends_on:
+      - restore-cache
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - /root/.gradle
+        - ./.gradle
+        - ./gradle
+    volumes:
+      - name: cache
+        path: /cache
+      - name: gradle
+        path: /root/.gradle
+    depends_on:
+      - build
+  - name: docker
+    image: docker:dind
+    environment:
+      DOCKER_PASS:
+        from_secret: DOCKER_REGISTRY_PASSWD
+    commands:
+      - docker login -u docker -p $DOCKER_PASS r.s8k.top
+      - docker build -t r.s8k.top/valyria-simulator .
+      - docker push r.s8k.top/valyria-simulator
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    depends_on:
+      - build
+
+volumes:
+  - name: cache
+    host:
+      path: /var/lib/drone/cache
+  - name: gradle
+    temp: {}
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
