@@ -46,7 +46,7 @@ public class GameStateMachine {
 	 * @return whether the game ends
 	 */
 	public synchronized boolean tick() {
-		GameTick tick = new GameTick(" ", null);
+		GameTick tick = new GameTick(null, null);
 		incTick(tick);
 
 		// invoke user script

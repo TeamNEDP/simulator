@@ -19,7 +19,7 @@ public class GameStat {
 		final var opponent = user.equals("R") ? "B" : "R";
 
 		GameStat gamestat = new GameStat(map.gameMap.copy());
-		gamestat.map.addFogofWar(user);
+		gamestat.map.addFogOfWar(user);
 
 		Arrays.stream(gamestat.map.grids).filter(g -> g.isBelongTo(opponent)).forEach(g -> {
 			gamestat.enemy_lands++;

@@ -36,7 +36,7 @@ public class MapGrid {
 		if (user.equals("R")) {
 			return type.equals("R") || type.equals("LR") || type.equals("CR");
 		} else {
-			return type.equals("B") | type.equals("LB") || type.equals("CB");
+			return type.equals("B") || type.equals("LB") || type.equals("CB");
 		}
 	}
 

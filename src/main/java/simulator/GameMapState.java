@@ -46,7 +46,7 @@ public class GameMapState {
 		// 5. check map border
 		if (!gameMap.checkBorder(movement.xAttention(), movement.yAttention())) return false;
 		// 6. check if grid can conquer
-		return gameMap.grids[gameMap.getPos(movement.x, movement.y)].canConquer();
+		return gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].canConquer();
 	}
 
 
