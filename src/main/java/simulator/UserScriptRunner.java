@@ -13,6 +13,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
+import static simulator.GameProcess.TIME_LIMIT;
+
 public class UserScriptRunner {
 	private ScriptEngine engine = null;
 	private final ScheduledExecutorService service;
@@ -43,7 +45,7 @@ public class UserScriptRunner {
 					var res = engine.eval("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ");");
 					if (res == null) return null;
 					return MoveAction.fromObject(res);
-				}, 500, service
+				}, TIME_LIMIT, service
 		);
 	}
 

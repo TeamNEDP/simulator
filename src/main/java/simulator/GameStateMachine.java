@@ -14,7 +14,7 @@ public class GameStateMachine {
 	private int current, time;
 	private final String id;
 
-	private static final int MAX_TICK = 2000;
+	private static final int MAX_TICK = 500;
 
 	public GameStateMachine(GameStartData data, ScheduledExecutorService service, WebsocketHandler handler) {
 		this.id = data.id;
