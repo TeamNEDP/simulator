@@ -65,7 +65,7 @@ steps:
     pull: if-not-exists
     settings:
       method: POST
-      url: http://101.43.76.104:4000/api/services/valyria-simulator/deploy
+      urls: http://101.43.76.104:4000/api/services/valyria-simulator/deploy
       headers:
         from_secret: S2_COMPOSE_DEPLOYER_SECRET_HEADER
     depends_on:
