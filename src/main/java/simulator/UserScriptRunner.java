@@ -75,6 +75,8 @@ public class UserScriptRunner {
 		try {
 			return future.get();
 		} catch (InterruptedException | ExecutionException e) {
+			// TODO: remove me
+			e.printStackTrace();
 			timeoutHandler.run();
 			return null;
 		}
