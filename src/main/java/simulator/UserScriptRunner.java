@@ -62,7 +62,9 @@ public class UserScriptRunner {
 		}, timeout, TimeUnit.MILLISECONDS);
 
 		try {
-			return callable.call();
+			var res = callable.call();
+			done.set(true);
+			return res;
 		} catch (Exception e) {
 			// TODO: remove me
 			e.printStackTrace();
