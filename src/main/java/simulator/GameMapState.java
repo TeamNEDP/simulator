@@ -3,6 +3,7 @@ package simulator;
 import simulator.game.*;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public class GameMapState {
 	public GameMap gameMap;
@@ -34,20 +35,23 @@ public class GameMapState {
 		}
 	}
 
-	public boolean checkValid(String user, MoveAction movement) {
-		if (movement == null) return false;
+	public Optional<String> checkValid(String user, MoveAction movement) {
+		if (movement == null) return Optional.empty();
 		// 1.check movement's validity
-		if (!movement.checkValid()) return false;
+		if (!movement.checkValid()) return Optional.of("Invalid movement");
 		// 2.check the grid's owner
-		if (!gameMap.grids[gameMap.getPos(movement.x, movement.y)].isBelongTo(user)) return false;
+		if (!gameMap.grids[gameMap.getPos(movement.x, movement.y)].isBelongTo(user))
+			return Optional.of("Source block does not belong to player");
 		// 3.check map border
-		if (!gameMap.checkBorder(movement.x, movement.y)) return false;
+		if (!gameMap.checkBorder(movement.x, movement.y)) return Optional.of("Map border exceeded");
 		// 4. check soldiers amount
-		if (!gameMap.grids[gameMap.getPos(movement.x, movement.y)].checkAmount(movement.amount)) return false;
+		if (!gameMap.grids[gameMap.getPos(movement.x, movement.y)].checkAmount(movement.amount))
+			return Optional.of("Not enough soldiers");
 		// 5. check map border
-		if (!gameMap.checkBorder(movement.xAttention(), movement.yAttention())) return false;
+		if (!gameMap.checkBorder(movement.xAttention(), movement.yAttention()))
+			return Optional.of("Map border exceeded");
 		// 6. check if grid can conquer
-		return gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].canConquer();
+		return Optional.ofNullable(gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].canConquer() ? null : "Cannot conquer");
 	}
 
 
@@ -61,10 +65,10 @@ public class GameMapState {
 			return;
 		}
 
-
-		if (!checkValid(user, movement)) {
+		var error = checkValid(user, movement);
+		if (error.isPresent()) {
 			tick.action_valid = false;
-			tick.action_error = "valid check failed";
+			tick.action_error = error.get();
 			return;
 		}
 
