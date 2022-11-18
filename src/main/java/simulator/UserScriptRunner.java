@@ -49,8 +49,6 @@ public class UserScriptRunner {
 					}
 
 					var obj = (JSObject) res;
-					// TODO: remove me
-					System.out.println("cast done");
 					return MoveAction.fromJson(obj.stringify());
 				}, () -> tick.action_error = "time limit exceeded", TIME_LIMIT, service
 		);
@@ -71,8 +69,6 @@ public class UserScriptRunner {
 			done.set(true);
 			return res;
 		} catch (Exception e) {
-			// TODO: remove me
-			e.printStackTrace();
 			timeoutHandler.run();
 		}
 		return null;
