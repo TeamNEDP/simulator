@@ -8,6 +8,8 @@ import java.net.URISyntaxException;
 public class SocketClientEngine {
 
 	public static void main(String[] args) throws URISyntaxException, InterruptedException {
+		System.loadLibrary("/app/libquickjs-java-wrapper.so");
+
 		var url = System.getenv("SERVER_URL");
 
 		// token 发过去

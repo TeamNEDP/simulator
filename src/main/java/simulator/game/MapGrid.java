@@ -20,7 +20,7 @@ public class MapGrid {
 	 * @return whether it is a Land (vacancy exclusive).
 	 */
 	public boolean isLand() {
-		return type.equals("LR") || type.equals("LB");
+		return type.equals("R") || type.equals("B") || type.equals("LR") || type.equals("LB");
 	}
 
 	public boolean checkAmount(int num) {

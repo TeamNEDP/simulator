@@ -2,6 +2,7 @@ package simulator;
 
 
 import com.google.gson.Gson;
+import com.whl.quickjs.wrapper.QuickJSContext;
 import simulator.game.GameStat;
 import simulator.game.GameTick;
 import simulator.game.MoveAction;
@@ -23,14 +24,15 @@ public class UserScriptRunner {
 	private final String color;
 	private final boolean noop;
 
+	private final QuickJSContext context = QuickJSContext.create();
+
 
 	public UserScriptRunner(String color, UserScript script, ScheduledExecutorService service) {
 		this.color = color;
 		this.service = service;
 		if (script.type.equals("javascript")) {
-			this.engine = new ScriptEngineManager().getEngineByName("nashorn");
 			noop = !Boolean.TRUE.equals(executeWithTimeout(() -> {
-				engine.eval(script.content);
+				context.evaluate(script.content);
 				return true;
 			}, 1000, service));
 		} else {
@@ -45,7 +47,7 @@ public class UserScriptRunner {
 		}
 
 		return executeWithTimeout(() -> {
-					var res = engine.eval("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ");");
+					var res = context.evaluate("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ");");
 					if (res == null) {
 						return null;
 					}
