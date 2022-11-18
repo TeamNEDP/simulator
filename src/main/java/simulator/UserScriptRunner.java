@@ -31,7 +31,7 @@ public class UserScriptRunner {
 			noop = !Boolean.TRUE.equals(executeWithTimeout(() -> {
 				engine.eval(script.content);
 				return true;
-			}, 500, service));
+			}, TIME_LIMIT, service));
 		} else {
 			noop = true;
 		}
