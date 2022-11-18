@@ -11,7 +11,7 @@ public class GameProcess implements Runnable {
 	GameStateMachine machine;
 	ScheduledExecutorService service;
 	WebsocketHandler handler;
-	final static int TIME_LIMIT = 50;
+	final static int TIME_LIMIT = 100;
 
 	public GameProcess(GameStartData data, ScheduledExecutorService service, WebsocketHandler handler) {
 		// input game state
