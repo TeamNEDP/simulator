@@ -17,6 +17,8 @@ dependencies {
     shadow 'com.google.code.gson:gson:2.10'
 }
 
+configurations.getByName("implementation").extendsFrom(configurations.getByName("shadow"))
+
 shadowJar {
     configurations = [project.configurations.compileClasspath]
     archiveClassifier.set("shadow")

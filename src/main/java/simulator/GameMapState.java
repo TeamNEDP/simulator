@@ -8,6 +8,7 @@ public class GameMapState {
 	public GameMap gameMap;
 	private final GameResult result;
 
+
 	public GameMapState(GameMap gameMap) {
 		this.gameMap = gameMap;
 		result = new GameResult();
@@ -34,7 +35,7 @@ public class GameMapState {
 	}
 
 	public boolean checkValid(String user, MoveAction movement) {
-//		if (movement == null) return false;
+		if (movement == null) return false;
 		// 1.check movement's validity
 		if (!movement.checkValid()) return false;
 		// 2.check the grid's owner
