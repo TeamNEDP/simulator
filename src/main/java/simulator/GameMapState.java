@@ -55,7 +55,13 @@ public class GameMapState {
 		tick.action = movement;
 
 
-		if (tick.action_error != null && !checkValid(user, movement)) {
+		if (tick.action_error != null) {
+			tick.action_valid = false;
+			return;
+		}
+
+
+		if (!checkValid(user, movement)) {
 			tick.action_valid = false;
 			tick.action_error = "valid check failed";
 			return;
