@@ -8,17 +8,12 @@ import simulator.game.GameTick;
 import simulator.game.MoveAction;
 import simulator.game.UserScript;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static simulator.GameProcess.TIME_LIMIT;
 
 public class UserScriptRunner {
-	private ScriptEngine engine = null;
 	private final ScheduledExecutorService service;
 
 	private final String color;
@@ -56,33 +51,27 @@ public class UserScriptRunner {
 		);
 	}
 
-	private static <T> T executeWithTimeout(Callable<T> callable, Runnable timeoutHandler, @SuppressWarnings("SameParameterValue") long timeout, ExecutorService service) {
+	private static <T> T executeWithTimeout(Callable<T> callable, Runnable timeoutHandler, @SuppressWarnings("SameParameterValue") long timeout, ScheduledExecutorService service) {
+		var done = new AtomicBoolean(false);
+		var currentThread = Thread.currentThread();
 
-		var future = service.submit(callable);
-		var start = System.currentTimeMillis();
-		while (!future.isDone()) {
-			if (System.currentTimeMillis() - start > timeout) {
-				future.cancel(true);
-				return null;
+		service.schedule(() -> {
+			if (!done.get()) {
+				currentThread.interrupt();
 			}
-			try {
-				//noinspection BusyWait
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-		}
+		}, timeout, TimeUnit.MILLISECONDS);
+
 		try {
-			return future.get();
-		} catch (InterruptedException | ExecutionException e) {
+			return callable.call();
+		} catch (Exception e) {
 			// TODO: remove me
 			e.printStackTrace();
 			timeoutHandler.run();
-			return null;
 		}
+		return null;
 	}
 
-	private static <T> T executeWithTimeout(Callable<T> callable, @SuppressWarnings("SameParameterValue") long timeout, ExecutorService service) {
+	private static <T> T executeWithTimeout(Callable<T> callable, @SuppressWarnings("SameParameterValue") long timeout, ScheduledExecutorService service) {
 		return executeWithTimeout(callable, () -> {
 		}, timeout, service);
 	}
