@@ -46,17 +46,17 @@ public class GameStateMachine {
 	 * @return whether the game ends
 	 */
 	public synchronized boolean tick() {
-		GameTick tick = new GameTick(null, null);
+		GameTick tick = new GameTick();
 		incTick(tick);
 
 		// invoke user script
 		MoveAction action;
 		if (current == 1) {
 			GameStat stat = GameStat.fromGameMap("R", currentGameState);
-			action = rRunner.run(stat);
+			action = rRunner.run(stat, tick);
 		} else {
 			GameStat stat = GameStat.fromGameMap("B", currentGameState);
-			action = bRunner.run(stat);
+			action = bRunner.run(stat, tick);
 		}
 
 		currentGameState.applyMoveAction(current == 1 ? "R" : "B", action, tick);

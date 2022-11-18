@@ -9,11 +9,14 @@ public class GameTick {
 	public MoveAction action;
 	public boolean action_valid;
 
-	public GameTick(String user, MoveAction movement) {
-		operator = user;
-		action = movement;
+	public String action_error;
+
+	public GameTick() {
+		operator = null;
+		action = null;
 		action_valid = true;
 		changes = new ArrayList<>();
+		action_error = null;
 	}
 
 	public void addChange(MapGrid grid, int x, int y) {

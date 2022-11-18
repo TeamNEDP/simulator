@@ -34,7 +34,7 @@ public class GameMapState {
 	}
 
 	public boolean checkValid(String user, MoveAction movement) {
-		if (movement == null) return false;
+//		if (movement == null) return false;
 		// 1.check movement's validity
 		if (!movement.checkValid()) return false;
 		// 2.check the grid's owner
@@ -55,8 +55,9 @@ public class GameMapState {
 		tick.action = movement;
 
 
-		if (!checkValid(user, movement)) {
+		if (tick.action_error != null && !checkValid(user, movement)) {
 			tick.action_valid = false;
+			tick.action_error = "valid check failed";
 			return;
 		}
 
