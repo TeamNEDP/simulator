@@ -58,11 +58,11 @@ public class WebsocketHandler extends WebSocketClient {
 		}
 	}
 
-	static int cnt = 0;
+//	static int cnt = 0;
 
 	public synchronized void sendGameUpdateData(GameUpdateData gameUpdateData) {
 		try {
-			System.out.println("++cnt = " + ++cnt);
+//			System.out.println("++cnt = " + ++cnt);
 			send(new Gson().toJson(new GameUpdateMessage(gameUpdateData)));
 		} catch (Exception ex) {
 			System.out.println("Error on open web socket.");
