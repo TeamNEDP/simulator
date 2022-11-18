@@ -18,11 +18,11 @@ public class GameProcess implements Runnable {
 		this.data = data;
 		this.service = service;
 		this.handler = handler;
-		machine = new GameStateMachine(data, service, handler);
 	}
 
 	@Override
 	public void run() {
+		machine = new GameStateMachine(data, service, handler);
 		for (; ; ) {
 			try {
 				var start = System.currentTimeMillis();
