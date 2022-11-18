@@ -2,6 +2,7 @@ package simulator;
 
 
 import com.google.gson.Gson;
+import com.whl.quickjs.wrapper.JSObject;
 import com.whl.quickjs.wrapper.QuickJSContext;
 import simulator.game.GameStat;
 import simulator.game.GameTick;
@@ -42,11 +43,15 @@ public class UserScriptRunner {
 		}
 
 		return executeWithTimeout(() -> {
-					var res = context.evaluate("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ");");
+					var res = context.evaluate("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ")");
 					if (res == null) {
 						return null;
 					}
-					return MoveAction.fromObject(res);
+
+					var obj = (JSObject) res;
+					// TODO: remove me
+					System.out.println("cast done");
+					return MoveAction.fromJson(obj.stringify());
 				}, () -> tick.action_error = "time limit exceeded", TIME_LIMIT, service
 		);
 	}

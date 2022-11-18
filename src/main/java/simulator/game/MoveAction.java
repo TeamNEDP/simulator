@@ -12,8 +12,8 @@ public class MoveAction {
 		return movement == 'U' || movement == 'D' || movement == 'L' || movement == 'R';
 	}
 
-	public static MoveAction fromObject(Object obj) {
-		return new Gson().fromJson(new Gson().toJson(obj), MoveAction.class);
+	public static MoveAction fromJson(String json) {
+		return new Gson().fromJson(json, MoveAction.class);
 	}
 
 	public int xAttention() {
