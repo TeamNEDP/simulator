@@ -58,7 +58,7 @@ public class MapGrid {
 	}
 
 	public boolean canConquer() {
-		return type.equals("V") || isLand() || isCrownOrCastle();
+		return type.equals("V") || type.equals("C") || isLand() || isCrownOrCastle();
 	}
 
 	public void change(String user, boolean flag) {

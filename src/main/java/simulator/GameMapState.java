@@ -54,7 +54,6 @@ public class GameMapState {
 		return Optional.ofNullable(gameMap.grids[gameMap.getPos(movement.xAttention(), movement.yAttention())].canConquer() ? null : "Cannot conquer");
 	}
 
-
 	public void applyMoveAction(String user, MoveAction movement, GameTick tick) {
 		tick.operator = user;
 		tick.action = movement;
@@ -66,11 +65,14 @@ public class GameMapState {
 		}
 
 		var error = checkValid(user, movement);
+
 		if (error.isPresent()) {
 			tick.action_valid = false;
 			tick.action_error = error.get();
 			return;
 		}
+
+		if (movement == null) return;
 
 		result.updateMove(user);
 		gameMap.grids[gameMap.getPos(movement.x, movement.y)].kill(movement.amount);
