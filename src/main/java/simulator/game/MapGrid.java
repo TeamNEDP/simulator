@@ -12,15 +12,37 @@ public class MapGrid {
 	}
 
 
-	public boolean isCrownOrCastle() {
+	/**
+	 *
+	 * @return type in ("R", "B", "CR", "CB")
+	 */
+	public boolean isOwnedCrownOrCastle() {
 		return type.equals("R") || type.equals("B") || type.equals("CR") || type.equals("CB");
+	}
+
+
+	/**
+	 *
+	 * @return type in ("C", "R", "B", "CR", "CB")
+	 */
+
+	public boolean isCrownOrCastle() {
+		return type.equals("C") || isOwnedCrownOrCastle();
 	}
 
 	/**
 	 * @return whether it is a Land (vacancy exclusive).
 	 */
-	public boolean isLand() {
+	public boolean isOwnedLand() {
 		return type.equals("R") || type.equals("B") || type.equals("LR") || type.equals("LB");
+	}
+
+	/**
+	 *
+	 * @return whether it is a Land (vacancy inclusive).
+	 */
+	public boolean isLand() {
+		return type.equals("V") || isOwnedLand();
 	}
 
 	public boolean checkAmount(int num) {
@@ -47,7 +69,7 @@ public class MapGrid {
 	public void conquer(String user, int amount, GameResult result) {
 		if (soldiers < amount) {
 			soldiers = amount - soldiers;
-			if (isCrownOrCastle() || type.equals("C")) type = "C" + user;
+			if (isCrownOrCastle()) type = "C" + user;
 			else type = "L" + user;
 			result.updateKill(user, soldiers);
 		} else {
@@ -57,12 +79,12 @@ public class MapGrid {
 	}
 
 	public boolean canConquer() {
-		return type.equals("V") || type.equals("C") || isLand() || isCrownOrCastle();
+		return isLand() || isCrownOrCastle();
 	}
 
 	public void change(String user, boolean flag) {
 		if (isBelongTo(user) || flag) return;
-		if (isCrownOrCastle()) {
+		if (isCrownOrCastle() || type.equals("M")) {
 			type = "MF";
 			soldiers = 0;
 		} else type = "F";

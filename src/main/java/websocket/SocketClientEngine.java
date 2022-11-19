@@ -16,15 +16,14 @@ public class SocketClientEngine {
 		// token 发过去
 		var secret = System.getenv("SERVER_SECRET");
 
-		WebsocketHandler client = new WebsocketHandler(new URI(url), secret);
-		client.connectBlocking();
+		WebsocketHandler client;
 
-		while (!client.getReadyState().equals(ReadyState.OPEN)) {
+		do {
+			client = new WebsocketHandler(new URI(url), secret);
+			client.connectBlocking();
 			System.out.println("Cannot connect. Retrying after 10 seconds.");
 			Thread.sleep(10000);
-			client.close();
-			client.connectBlocking();
-		}
+		} while (!client.getReadyState().equals(ReadyState.OPEN));
 
 		System.out.println("Connected to websocket.");
 

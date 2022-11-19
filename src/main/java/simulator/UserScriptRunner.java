@@ -43,15 +43,13 @@ public class UserScriptRunner {
 		}
 
 		return executeWithTimeout(() -> {
-					var res = context.evaluate("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ")");
-					if (res == null) {
-						return null;
-					}
-
-					var obj = (JSObject) res;
-					return MoveAction.fromJson(obj.stringify());
-				}, () -> tick.action_error = "time limit exceeded", TIME_LIMIT, service
-		);
+			var res = context.evaluate("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ")");
+			if (res == null) {
+				return null;
+			}
+			var obj = (JSObject) res;
+			return MoveAction.fromJson(obj.stringify());
+		}, () -> tick.action_error = "time limit exceeded", TIME_LIMIT, service);
 	}
 
 	private static <T> T executeWithTimeout(Callable<T> callable, Runnable timeoutHandler, @SuppressWarnings("SameParameterValue") long timeout, ScheduledExecutorService service) {

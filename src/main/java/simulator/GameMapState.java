@@ -17,7 +17,7 @@ public class GameMapState {
 
 	public void incSoldierPerTick(GameTick tick) {
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
-			if (gameMap.grids[i].isCrownOrCastle()) {
+			if (gameMap.grids[i].isOwnedCrownOrCastle()) {
 				gameMap.grids[i].soldiers++;
 				result.updateSoldier(gameMap.grids[i].belongTo());
 				tick.addChange(gameMap.grids[i], i / gameMap.height, i % gameMap.height);
@@ -27,7 +27,7 @@ public class GameMapState {
 
 	public void incSoldierPerRound(GameTick tick) {
 		for (int i = 0; i < gameMap.height * gameMap.width; i++) {
-			if (gameMap.grids[i].isLand()) {
+			if (gameMap.grids[i].isOwnedLand()) {
 				gameMap.grids[i].soldiers++;
 				result.updateSoldier(gameMap.grids[i].belongTo());
 				tick.addChange(gameMap.grids[i], i / gameMap.height, i % gameMap.height);
