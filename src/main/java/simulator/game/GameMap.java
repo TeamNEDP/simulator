@@ -28,17 +28,26 @@ public class GameMap {
 
 	public void addFogOfWar(String user) {
 		for (int i = 0; i < height * width; i++) {
+			if (grids[i].isBelongTo(user)) {
+				continue;
+			}
+
 			int x = i / height;
 			int y = i % height;
 			int[] dx = {-1, -1, -1, 1, 1, 1, 0, 0, 0};
 			int[] dy = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
-			boolean flag = false;
+
+			boolean isVisible = false;
+
 			for (int j = 0; j < 9; j++) {
 				if (!checkBorder(x + dx[j], y + dy[j])) continue;
 				if (grids[getPos(x + dx[j], y + dy[j])].isBelongTo(user))
-					flag = true;
+					isVisible = true;
 			}
-			grids[getPos(x, y)].change(user, flag);
+
+			if (isVisible) continue;
+
+			grids[getPos(x, y)].addFogOfWar();
 		}
 	}
 }

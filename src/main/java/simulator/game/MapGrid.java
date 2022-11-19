@@ -82,8 +82,7 @@ public class MapGrid {
 		return isLand() || isCrownOrCastle();
 	}
 
-	public void change(String user, boolean flag) {
-		if (isBelongTo(user) || flag) return;
+	public void addFogOfWar() {
 		if (isCrownOrCastle() || type.equals("M")) {
 			type = "MF";
 			soldiers = 0;
