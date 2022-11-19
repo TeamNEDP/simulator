@@ -1,5 +1,6 @@
 package simulator;
 
+import com.google.gson.Gson;
 import simulator.game.*;
 import websocket.WebsocketHandler;
 
@@ -52,7 +53,9 @@ public class GameStateMachine {
 		// invoke user script
 		MoveAction action;
 		if (current == 1) {
+
 			GameStat stat = GameStat.fromGameMap("R", currentGameState.gameMap);
+			System.out.println(new Gson().toJson(stat));
 			action = rRunner.run(stat, tick);
 		} else {
 			GameStat stat = GameStat.fromGameMap("B", currentGameState.gameMap);
