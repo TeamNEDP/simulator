@@ -52,10 +52,10 @@ public class GameStateMachine {
 		// invoke user script
 		MoveAction action;
 		if (current == 1) {
-			GameStat stat = GameStat.fromGameMap("R", currentGameState);
+			GameStat stat = GameStat.fromGameMap("R", currentGameState.gameMap);
 			action = rRunner.run(stat, tick);
 		} else {
-			GameStat stat = GameStat.fromGameMap("B", currentGameState);
+			GameStat stat = GameStat.fromGameMap("B", currentGameState.gameMap);
 			action = bRunner.run(stat, tick);
 		}
 

@@ -15,10 +15,10 @@ public class GameStat {
 		enemy_lands = 0;
 	}
 
-	public static GameStat fromGameMap(String user, GameMapState map) {
+	public static GameStat fromGameMap(String user, GameMap gameMap) {
 		final var opponent = user.equals("R") ? "B" : "R";
 
-		GameStat gamestat = new GameStat(map.gameMap.copy());
+		GameStat gamestat = new GameStat(gameMap.copy());
 
 		Arrays.stream(gamestat.map.grids).filter(g -> g.isBelongTo(opponent)).forEach(g -> {
 			gamestat.enemy_lands++;

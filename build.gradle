@@ -11,8 +11,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     shadow 'org.java-websocket:Java-WebSocket:1.5.3'
     shadow 'com.google.code.gson:gson:2.10'
     shadow 'wang.harlon.quickjs:wrapper-java:0.6.0'
