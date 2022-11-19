@@ -28,8 +28,8 @@ public class GameMap {
 
 	public void addFogOfWar(String user) {
 		for (int i = 0; i < height * width; i++) {
-			int x = i % width;
-			int y = i / width;
+			int x = i / height;
+			int y = i % height;
 			int[] dx = {-1, -1, -1, 1, 1, 1, 0, 0, 0};
 			int[] dy = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
 			boolean flag = false;
