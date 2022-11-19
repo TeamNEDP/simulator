@@ -85,7 +85,9 @@ public class MapGrid {
 	public void addFogOfWar() {
 		if (isCrownOrCastle() || type.equals("M")) {
 			type = "MF";
-			soldiers = 0;
-		} else type = "F";
+		} else {
+			type = "F";
+		}
+		soldiers = 0;
 	}
 }
