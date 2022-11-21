@@ -60,10 +60,10 @@ public class GameStateMachine {
 		} else {
 			GameStat stat = GameStat.fromGameMap("B", currentGameState.gameMap);
 
-			System.out.println("var stat = " + new Gson().toJson(stat));
+//			System.out.println("var stat = " + new Gson().toJson(stat));
 
 			action = bRunner.run(stat, tick);
-			System.out.println("var moveAction = " + new Gson().toJson(action));
+//			System.out.println("var moveAction = " + new Gson().toJson(action));
 		}
 
 		currentGameState.applyMoveAction(current == 1 ? "R" : "B", action, tick);

@@ -62,11 +62,9 @@ public class UserScriptRunner {
 
 	private static <T> T executeWithTimeout(Callable<T> callable, Runnable timeoutHandler, @SuppressWarnings("SameParameterValue") long timeout, ScheduledExecutorService service) {
 		var done = new AtomicBoolean(false);
-		var currentThread = Thread.currentThread();
 
 		service.schedule(() -> {
 			if (!done.get()) {
-				currentThread.interrupt();
 				timeoutHandler.run();
 			}
 		}, timeout, TimeUnit.MILLISECONDS);
