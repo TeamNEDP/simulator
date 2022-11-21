@@ -14,7 +14,7 @@ dependencies {
     implementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     shadow 'org.java-websocket:Java-WebSocket:1.5.3'
     shadow 'com.google.code.gson:gson:2.10'
-    shadow 'wang.harlon.quickjs:wrapper-java:0.6.0'
+    shadow 'com.eclipsesource.j2v8:j2v8_linux_x86_64:4.8.0'
 }
 
 configurations.getByName("implementation").extendsFrom(configurations.getByName("shadow"))

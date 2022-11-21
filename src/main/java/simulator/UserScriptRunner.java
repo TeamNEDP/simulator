@@ -1,15 +1,16 @@
 package simulator;
 
 
+import com.eclipsesource.v8.V8;
 import com.google.gson.Gson;
-import com.whl.quickjs.wrapper.JSObject;
-import com.whl.quickjs.wrapper.QuickJSContext;
 import simulator.game.GameStat;
 import simulator.game.GameTick;
 import simulator.game.MoveAction;
 import simulator.game.UserScript;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static simulator.GameProcess.TIME_LIMIT;
@@ -20,7 +21,7 @@ public class UserScriptRunner {
 	private final String color;
 	private final boolean noop;
 
-	private final QuickJSContext context = QuickJSContext.create();
+	private final V8 runtime = V8.createV8Runtime();
 
 
 	public UserScriptRunner(String color, UserScript script, ScheduledExecutorService service) {
@@ -28,7 +29,8 @@ public class UserScriptRunner {
 		this.service = service;
 		if (script.type.equals("javascript")) {
 			noop = !Boolean.TRUE.equals(executeWithTimeout(() -> {
-				context.evaluate(script.content);
+//				context.evaluate(script.content);
+				runtime.executeScript(script.content);
 				return true;
 			}, 1000, service));
 		} else {
@@ -43,12 +45,14 @@ public class UserScriptRunner {
 		}
 
 		return executeWithTimeout(() -> {
-			var res = context.evaluate("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ")");
+			var res = runtime.executeObjectScript("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ")");
 			if (res == null) {
 				return null;
 			}
-			var obj = (JSObject) res;
-			return MoveAction.fromJson(obj.stringify());
+			var json = new Gson().toJson(res);
+			// TODO: remove me
+			System.out.println("json = " + json);
+			return MoveAction.fromJson(json);
 		}, () -> tick.action_error = "time limit exceeded", TIME_LIMIT, service);
 	}
 
