@@ -32,7 +32,7 @@ public class UserScriptRunner {
 //				context.evaluate(script.content);
 				runtime.executeScript(script.content);
 				return true;
-			}, () -> runtime.shutdownExecutors(true), 1000, service));
+			}, runtime::terminateExecution, 1000, service));
 		} else {
 			noop = true;
 		}
@@ -51,7 +51,7 @@ public class UserScriptRunner {
 			}
 			return MoveAction.fromJson(res);
 		}, () -> {
-			runtime.shutdownExecutors(true);
+			runtime.terminateExecution();
 			tick.action_error = "time limit exceeded";
 		}, TIME_LIMIT, service);
 	}
@@ -67,6 +67,7 @@ public class UserScriptRunner {
 		service.schedule(() -> {
 			if (!done.get()) {
 				currentThread.interrupt();
+				timeoutHandler.run();
 			}
 		}, timeout, TimeUnit.MILLISECONDS);
 
@@ -75,8 +76,6 @@ public class UserScriptRunner {
 			done.set(true);
 			return res;
 		} catch (Exception e) {
-			timeoutHandler.run();
-		} finally {
 			done.set(true);
 		}
 		return null;
