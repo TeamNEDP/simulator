@@ -71,6 +71,8 @@ public class GameStateMachine {
 		handler.sendGameUpdateData(new GameUpdateData(id, tick));
 
 		if (currentGameState.finished()) {
+			rRunner.release();
+			bRunner.release();
 			handler.sendGameEndData(new GameEndData(id, currentGameState.getResult(time)));
 			return true;
 		} else if (time >= MAX_TICK) {

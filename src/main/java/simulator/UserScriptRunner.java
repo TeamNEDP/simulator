@@ -56,6 +56,10 @@ public class UserScriptRunner {
 		}, () -> tick.action_error = "time limit exceeded", TIME_LIMIT, service);
 	}
 
+	public void release() {
+		runtime.release();
+	}
+
 	private static <T> T executeWithTimeout(Callable<T> callable, Runnable timeoutHandler, @SuppressWarnings("SameParameterValue") long timeout, ScheduledExecutorService service) {
 		var done = new AtomicBoolean(false);
 		var currentThread = Thread.currentThread();
@@ -71,7 +75,11 @@ public class UserScriptRunner {
 			done.set(true);
 			return res;
 		} catch (Exception e) {
+			// TODO: remove me
+			e.printStackTrace();
 			timeoutHandler.run();
+		} finally {
+			done.set(true);
 		}
 		return null;
 	}
