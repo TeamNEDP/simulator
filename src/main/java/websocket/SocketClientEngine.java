@@ -5,6 +5,7 @@ import org.java_websocket.enums.ReadyState;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+@SuppressWarnings("BusyWait")
 public class SocketClientEngine {
 
 	public static void main(String[] args) throws URISyntaxException, InterruptedException {
