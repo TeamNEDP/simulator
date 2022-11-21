@@ -45,14 +45,13 @@ public class UserScriptRunner {
 		}
 
 		return executeWithTimeout(() -> {
-			var res = runtime.executeObjectScript("Tick(\"" + color + "\", " + new Gson().toJson(stat) + ")");
+			var res = runtime.executeStringScript("JSON.stringify(Tick(\"" + color + "\", " + new Gson().toJson(stat) + "))");
 			if (res == null) {
 				return null;
 			}
-			var json = new Gson().toJson(res);
 			// TODO: remove me
-			System.out.println("json = " + json);
-			return MoveAction.fromJson(json);
+			System.out.println("json = " + res);
+			return MoveAction.fromJson(res);
 		}, () -> tick.action_error = "time limit exceeded", TIME_LIMIT, service);
 	}
 
