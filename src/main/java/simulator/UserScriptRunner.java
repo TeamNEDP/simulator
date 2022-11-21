@@ -32,7 +32,7 @@ public class UserScriptRunner {
 //				context.evaluate(script.content);
 				runtime.executeScript(script.content);
 				return true;
-			}, runtime::terminateExecution, 1000, service));
+			}, () -> runtime.shutdownExecutors(true), 1000, service));
 		} else {
 			noop = true;
 		}
@@ -51,7 +51,7 @@ public class UserScriptRunner {
 			}
 			return MoveAction.fromJson(res);
 		}, () -> {
-			runtime.terminateExecution();
+			runtime.shutdownExecutors(true);
 			tick.action_error = "time limit exceeded";
 		}, TIME_LIMIT, service);
 	}
