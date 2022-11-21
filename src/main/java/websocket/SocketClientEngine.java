@@ -28,8 +28,17 @@ public class SocketClientEngine {
 		System.out.println("Connected to websocket.");
 
 		while (client.getReadyState().equals(ReadyState.OPEN)) {
-			client.sendPing();
-			Thread.sleep(10000);
+			if (client.getReadyState().equals(ReadyState.OPEN)) {
+				client.sendPing();
+				Thread.sleep(10000);
+			} else if (client.getReadyState().equals(ReadyState.CLOSED)) {
+				do {
+					client = new WebsocketHandler(new URI(url), secret);
+					client.connectBlocking();
+					System.out.println("Cannot connect. Retrying after 10 seconds.");
+					Thread.sleep(10000);
+				} while (!client.getReadyState().equals(ReadyState.OPEN));
+			}
 		}
 	}
 }

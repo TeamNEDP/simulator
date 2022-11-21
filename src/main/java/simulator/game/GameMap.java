@@ -34,12 +34,12 @@ public class GameMap {
 
 			int x = i / height;
 			int y = i % height;
-			int[] dx = {-1, -1, -1, 1, 1, 1, 0, 0, 0};
-			int[] dy = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
+			int[] dx = {-1, -1, -1, 1, 1, 1, 0, 0};
+			int[] dy = {-1, 0, 1, -1, 0, 1, -1, 1};
 
 			boolean isVisible = false;
 
-			for (int j = 0; j < 9; j++) {
+			for (int j = 0; j < 8; j++) {
 				if (!checkBorder(x + dx[j], y + dy[j])) continue;
 				if (grids[getPos(x + dx[j], y + dy[j])].isBelongTo(user))
 					isVisible = true;

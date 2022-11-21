@@ -16,7 +16,7 @@ public class GameTick {
 		action = null;
 		action_valid = true;
 		changes = new ArrayList<>();
-		action_error = null;
+		action_error = "";
 	}
 
 	public void addChange(MapGrid grid, int x, int y) {

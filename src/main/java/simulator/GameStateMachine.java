@@ -55,7 +55,7 @@ public class GameStateMachine {
 		if (current == 1) {
 
 			GameStat stat = GameStat.fromGameMap("R", currentGameState.gameMap);
-			System.out.println(new Gson().toJson(stat));
+//			System.out.println(new Gson().toJson(stat));
 			action = rRunner.run(stat, tick);
 		} else {
 			GameStat stat = GameStat.fromGameMap("B", currentGameState.gameMap);

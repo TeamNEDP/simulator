@@ -59,7 +59,7 @@ public class GameMapState {
 		tick.action = movement;
 
 
-		if (tick.action_error != null) {
+		if (!tick.action_error.isEmpty()) {
 			tick.action_valid = false;
 			return;
 		}
