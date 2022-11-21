@@ -32,7 +32,7 @@ public class UserScriptRunner {
 //				context.evaluate(script.content);
 				runtime.executeScript(script.content);
 				return true;
-			}, 1000, service));
+			}, runtime::terminateExecution, 1000, service));
 		} else {
 			noop = true;
 		}
@@ -49,10 +49,11 @@ public class UserScriptRunner {
 			if (res == null) {
 				return null;
 			}
-			// TODO: remove me
-			System.out.println("json = " + res);
 			return MoveAction.fromJson(res);
-		}, () -> tick.action_error = "time limit exceeded", TIME_LIMIT, service);
+		}, () -> {
+			runtime.terminateExecution();
+			tick.action_error = "time limit exceeded";
+		}, TIME_LIMIT, service);
 	}
 
 	public void release() {
@@ -74,8 +75,6 @@ public class UserScriptRunner {
 			done.set(true);
 			return res;
 		} catch (Exception e) {
-			// TODO: remove me
-			e.printStackTrace();
 			timeoutHandler.run();
 		} finally {
 			done.set(true);
