@@ -28,6 +28,7 @@ public class WebsocketHandler extends WebSocketClient {
 
 	@Override
 	public void onOpen(ServerHandshake handshakedata) {
+		System.out.println("Connected to websocket.");
 		sendAuthData(this.authData);
 	}
 

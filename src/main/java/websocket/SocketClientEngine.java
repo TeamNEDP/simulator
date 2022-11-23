@@ -5,7 +5,7 @@ import org.java_websocket.enums.ReadyState;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@SuppressWarnings("BusyWait")
+@SuppressWarnings({"BusyWait", "InfiniteLoopStatement"})
 public class SocketClientEngine {
 
 	public static void main(String[] args) throws URISyntaxException, InterruptedException {
@@ -26,9 +26,7 @@ public class SocketClientEngine {
 			Thread.sleep(10000);
 		} while (!client.getReadyState().equals(ReadyState.OPEN));
 
-		System.out.println("Connected to websocket.");
-
-		while (client.getReadyState().equals(ReadyState.OPEN)) {
+		while (true) {
 			if (client.getReadyState().equals(ReadyState.OPEN)) {
 				client.sendPing();
 				Thread.sleep(10000);
