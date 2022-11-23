@@ -11,10 +11,21 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     shadow 'org.java-websocket:Java-WebSocket:1.5.3'
     shadow 'com.google.code.gson:gson:2.10'
     shadow 'com.eclipsesource.j2v8:j2v8_linux_x86_64:4.8.0'
+
+    shadow 'org.apache.logging.log4j:log4j-api:2.19.0'
+    shadow 'org.apache.logging.log4j:log4j-slf4j-impl:2.19.0'
+    shadow 'org.apache.logging.log4j:log4j-core:2.19.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
 }
 
 configurations.getByName("implementation").extendsFrom(configurations.getByName("shadow"))

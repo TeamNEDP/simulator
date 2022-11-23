@@ -1,6 +1,5 @@
 package simulator;
 
-import com.google.gson.Gson;
 import simulator.game.*;
 import websocket.WebsocketHandler;
 

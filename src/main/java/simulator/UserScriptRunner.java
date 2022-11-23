@@ -79,9 +79,4 @@ public class UserScriptRunner {
 		return null;
 	}
 
-	private static <T> T executeWithTimeout(Callable<T> callable, @SuppressWarnings("SameParameterValue") long timeout, ScheduledExecutorService service) {
-		return executeWithTimeout(callable, () -> {
-		}, timeout, service);
-	}
-
 }
