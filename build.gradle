@@ -35,7 +35,7 @@ shadowJar {
     archiveClassifier.set("shadow")
     manifest {
         attributes([
-                "Main-Class": "websocket.SocketClientEngine"
+                "Main-Class": "team.nedp.valyria.simulator.Main"
         ])
     }
 }

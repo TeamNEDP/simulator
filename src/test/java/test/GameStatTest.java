@@ -2,8 +2,8 @@ package test;
 
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
-import simulator.game.GameMap;
-import simulator.game.GameStat;
+import team.nedp.valyria.simulator.schema.GameMap;
+import team.nedp.valyria.simulator.schema.GameStat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
