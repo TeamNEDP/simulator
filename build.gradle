@@ -10,14 +10,16 @@ repositories {
     mavenCentral()
 }
 
+compileJava {
+    sourceCompatibility = targetCompatibility = 11
+}
+
 dependencies {
     shadow 'org.java-websocket:Java-WebSocket:1.5.3'
     shadow 'com.google.code.gson:gson:2.10'
     shadow 'com.eclipsesource.j2v8:j2v8_linux_x86_64:4.8.0'
 
-    shadow 'org.apache.logging.log4j:log4j-api:2.19.0'
-    shadow 'org.apache.logging.log4j:log4j-slf4j-impl:2.19.0'
-    shadow 'org.apache.logging.log4j:log4j-core:2.19.0'
+    shadow 'org.slf4j:slf4j-simple:2.0.4'
 
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
@@ -31,11 +33,12 @@ dependencies {
 configurations.getByName("implementation").extendsFrom(configurations.getByName("shadow"))
 
 shadowJar {
-    configurations = [project.configurations.compileClasspath]
+    configurations = [project.configurations.runtimeClasspath]
     archiveClassifier.set("shadow")
     manifest {
         attributes([
-                "Main-Class": "team.nedp.valyria.simulator.Main"
+                "Main-Class"   : "team.nedp.valyria.simulator.Main",
+                "Multi-Release": true
         ])
     }
 }

@@ -1,18 +1,17 @@
 package team.nedp.valyria.simulator;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.enums.ReadyState;
 import team.nedp.valyria.simulator.websocket.WebsocketHandler;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@Log4j2
+@Slf4j
 @SuppressWarnings({"BusyWait", "InfiniteLoopStatement"})
 public class Main {
 
     public static void main(String[] args) throws URISyntaxException, InterruptedException {
-        log.info("test");
         var url = System.getenv("SERVER_URL");
 
         // token 发过去

@@ -1,7 +1,7 @@
 package team.nedp.valyria.simulator.websocket;
 
 import com.google.gson.Gson;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import team.nedp.valyria.simulator.game.GameProcess;
@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 
-@Log4j2
+@Slf4j
 public class WebsocketHandler extends WebSocketClient {
 
     final int MAX_SLOTS = 100;
