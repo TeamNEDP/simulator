@@ -30,7 +30,7 @@ public class UserScriptRunner {
         if (script.type.equals("javascript")) {
             noop = !Boolean.TRUE.equals(executeWithTimeout(() -> {
 //				context.evaluate(script.content);
-                runtime.executeScript(script.content);
+                runtime.executeVoidScript(script.content);
                 return true;
             }, runtime::terminateExecution, 1000, service));
         } else {
