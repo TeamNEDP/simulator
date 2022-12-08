@@ -30,20 +30,18 @@ public class Main {
                 Thread.sleep(10000);
             } else if (client.getReadyState().equals(ReadyState.CLOSED)) {
                 log.info("Reconnecting...");
-                do {
+                for (; ; ){
                     client = new WebsocketHandler(new URI(url), secret);
                     client.connectBlocking();
                     if (!client.getReadyState().equals(ReadyState.OPEN)) {
                         log.info("Cannot connect. Retrying after 10 seconds.");
+                        Thread.sleep(10000);
                     } else {
                         log.info("Connected to websocket.");
+                        break;
                     }
-                    Thread.sleep(10000);
-                } while (!client.getReadyState().equals(ReadyState.OPEN));
+                }
             }
         }
     }
 }
-
-
-// reboot the docker
